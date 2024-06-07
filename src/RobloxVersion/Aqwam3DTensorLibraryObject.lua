@@ -16,7 +16,7 @@
 	
 	By using or possesing any copies of this library, you agree to our license at:
 	
-	https://github.com/AqwamCreates/TensorL3D/LICENSE.md
+	https://github.com/AqwamCreates/TensorL3D/docs/TermsAndConditions.md
 	
 	--------------------------------------------------------------------
 	
