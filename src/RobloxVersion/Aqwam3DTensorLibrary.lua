@@ -812,19 +812,19 @@ end
 
 function AqwamTensorLibrary3D:isSameMatrix(tensor1, tensor2)
 	
-	local dimensionArray1 = AqwamTensorLibrary3D:getSize(tensor1)
+	local dimensionSizeArray1 = AqwamTensorLibrary3D:getSize(tensor1)
 
-	local dimensionArray2 = AqwamTensorLibrary3D:getSize(tensor2)
+	local dimensionSizeArray2 = AqwamTensorLibrary3D:getSize(tensor2)
 
-	for i, size in ipairs(dimensionArray1) do if (size ~= dimensionArray2[i]) then return false end end
+	for i, size in ipairs(dimensionSizeArray1) do if (size ~= dimensionSizeArray2[i]) then return false end end
 
-	for i = 1, dimensionArray1[1], 1 do
+	for i = 1, dimensionSizeArray1[1], 1 do
 
-		for j = 1, dimensionArray1[2], 1 do
+		for j = 1, dimensionSizeArray1[2], 1 do
 
-			for k = 1, dimensionArray1[3], 1 do
+			for k = 1, dimensionSizeArray1[3], 1 do
 
-				for l = 1, dimensionArray1[3], 1 do
+				for l = 1, dimensionSizeArray1[3], 1 do
 
 					if (tensor1[i][j][k][l] ~= tensor2[i][j][k][l]) then return false end
 
@@ -928,9 +928,9 @@ function AqwamTensorLibrary3D:concatenate(tensor1, tensor2, dimension)
 
 	throwErrorIfValueIsNot3DTensor(tensor2)
 
-	local dimensionArray1 = AqwamTensorLibrary3D:getSize(tensor1)
+	local dimensionSizeArray1 = AqwamTensorLibrary3D:getSize(tensor1)
 
-	local dimensionArray2 = AqwamTensorLibrary3D:getSize(tensor2)
+	local dimensionSizeArray2 = AqwamTensorLibrary3D:getSize(tensor2)
 
 	local newDimensionArray = {}
 
@@ -938,17 +938,17 @@ function AqwamTensorLibrary3D:concatenate(tensor1, tensor2, dimension)
 
 		if (dimensionIndex == dimension) then continue end
 
-		if (dimensionArray1[dimensionIndex] ~= dimensionArray2[dimensionIndex]) then error("The tensors do not contain equal dimension values at dimension " .. dimensionIndex .. ".") end
+		if (dimensionSizeArray1[dimensionIndex] ~= dimensionSizeArray2[dimensionIndex]) then error("The tensors do not contain equal dimension values at dimension " .. dimensionIndex .. ".") end
 
 	end
 
 	for dimensionIndex = 1, 3, 1 do
 
-		local dimensionSize = dimensionArray1[dimensionIndex]
+		local dimensionSize = dimensionSizeArray1[dimensionIndex]
 
 		if (dimensionIndex == dimension) then
 
-			dimensionSize = dimensionSize + dimensionArray2[dimensionIndex]
+			dimensionSize = dimensionSize + dimensionSizeArray2[dimensionIndex]
 
 		end
 
@@ -958,11 +958,11 @@ function AqwamTensorLibrary3D:concatenate(tensor1, tensor2, dimension)
 
 	local newTensor = AqwamTensorLibrary3D:create(newDimensionArray, true)
 
-	for i = 1, dimensionArray1[1], 1 do
+	for i = 1, dimensionSizeArray1[1], 1 do
 
-		for j = 1, dimensionArray1[2], 1 do
+		for j = 1, dimensionSizeArray1[2], 1 do
 
-			for k = 1, dimensionArray1[3],1 do
+			for k = 1, dimensionSizeArray1[3],1 do
 
 				newTensor[i][j][k] = tensor1[i][j][k]
 
@@ -974,13 +974,13 @@ function AqwamTensorLibrary3D:concatenate(tensor1, tensor2, dimension)
 
 	if (dimension == 1) then
 
-		local newDimensionHalfSize = dimensionArray1[1]
+		local newDimensionHalfSize = dimensionSizeArray1[1]
 
-		for i = 1, dimensionArray2[1], 1 do
+		for i = 1, dimensionSizeArray2[1], 1 do
 
-			for j = 1, dimensionArray2[2], 1 do
+			for j = 1, dimensionSizeArray2[2], 1 do
 
-				for k = 1, dimensionArray2[3],1 do
+				for k = 1, dimensionSizeArray2[3],1 do
 
 					newTensor[newDimensionHalfSize + i][j][k] = tensor2[i][j][k]
 
@@ -992,13 +992,13 @@ function AqwamTensorLibrary3D:concatenate(tensor1, tensor2, dimension)
 
 	elseif (dimension == 2) then
 
-		local newDimensionHalfSize = dimensionArray1[2]
+		local newDimensionHalfSize = dimensionSizeArray1[2]
 
-		for i = 1, dimensionArray2[1], 1 do
+		for i = 1, dimensionSizeArray2[1], 1 do
 
-			for j = 1, dimensionArray2[2], 1 do
+			for j = 1, dimensionSizeArray2[2], 1 do
 
-				for k = 1, dimensionArray2[3],1 do
+				for k = 1, dimensionSizeArray2[3],1 do
 
 					newTensor[i][newDimensionHalfSize + j][k] = tensor2[i][j][k]
 
@@ -1010,13 +1010,13 @@ function AqwamTensorLibrary3D:concatenate(tensor1, tensor2, dimension)
 
 	elseif (dimension == 3) then
 
-		local newDimensionHalfSize = dimensionArray1[3]
+		local newDimensionHalfSize = dimensionSizeArray1[3]
 
-		for i = 1, dimensionArray2[1], 1 do
+		for i = 1, dimensionSizeArray2[1], 1 do
 
-			for j = 1, dimensionArray2[2], 1 do
+			for j = 1, dimensionSizeArray2[2], 1 do
 
-				for k = 1, dimensionArray2[3],1 do
+				for k = 1, dimensionSizeArray2[3],1 do
 
 					newTensor[i][j][newDimensionHalfSize + k] = tensor2[i][j][k]
 
@@ -1042,25 +1042,25 @@ function AqwamTensorLibrary3D:dotProduct(tensor1, tensor2) -- Refer to this arti
 	
 	throwErrorIfValueIsNot3DTensor(tensor2)
 	
-	local dimensionArray1 = AqwamTensorLibrary3D:getSize(tensor1)
+	local dimensionSizeArray1 = AqwamTensorLibrary3D:getSize(tensor1)
 	
-	local dimensionArray2 = AqwamTensorLibrary3D:getSize(tensor2)
+	local dimensionSizeArray2 = AqwamTensorLibrary3D:getSize(tensor2)
 	
-	if (dimensionArray1[1] ~= dimensionArray2[1]) then error("The tensors do not contain equal dimension values at dimension 1.") end
+	if (dimensionSizeArray1[1] ~= dimensionSizeArray2[1]) then error("The tensors do not contain equal dimension values at dimension 1.") end
 
-	if (dimensionArray1[3] ~= dimensionArray2[2]) then error("The size of the dimension 3 of the first tensor is not equal to the size of dimension 2 of the second tensor.") end
+	if (dimensionSizeArray1[3] ~= dimensionSizeArray2[2]) then error("The size of the dimension 3 of the first tensor is not equal to the size of dimension 2 of the second tensor.") end
 
-	local newTensor = create3DTensor({dimensionArray1[1], dimensionArray1[2], dimensionArray2[3]}, true)
+	local newTensor = create3DTensor({dimensionSizeArray1[1], dimensionSizeArray1[2], dimensionSizeArray2[3]}, true)
 	
-	for i = 1, dimensionArray1[1], 1 do
+	for i = 1, dimensionSizeArray1[1], 1 do
 
-		for j = 1, dimensionArray1[2], 1 do
+		for j = 1, dimensionSizeArray1[2], 1 do
 
-			for k = 1, dimensionArray2[3], 1 do
+			for k = 1, dimensionSizeArray2[3], 1 do
 
 				local sum = 0
 
-				for l = 1, dimensionArray1[3] do sum = sum + (tensor1[i][j][l] * tensor2[i][l][k]) end
+				for l = 1, dimensionSizeArray1[3] do sum = sum + (tensor1[i][j][l] * tensor2[i][l][k]) end
 
 				newTensor[i][j][k] = sum
 
@@ -1120,15 +1120,15 @@ function AqwamTensorLibrary3D:applyFunction(functionToApply, ...)
 
 	local tensorsArray = {...}
 	
-	local dimensionArray = AqwamTensorLibrary3D:getSize(tensorsArray[1])
+	local dimensionSizeArray = AqwamTensorLibrary3D:getSize(tensorsArray[1])
 	
-	local result = create3DTensor(dimensionArray)
+	local result = create3DTensor(dimensionSizeArray)
 
-	for dimension1 = 1, dimensionArray[1], 1 do
+	for dimension1 = 1, dimensionSizeArray[1], 1 do
 
-		for dimension2 = 1, dimensionArray[2], 1 do
+		for dimension2 = 1, dimensionSizeArray[2], 1 do
 
-			for dimension3 = 1, dimensionArray[3], 1 do
+			for dimension3 = 1, dimensionSizeArray[3], 1 do
 				
 				tensorValues = {}
 				
@@ -1212,17 +1212,17 @@ function AqwamTensorLibrary3D:unaryMinus(tensor)
 	
 	local result = {}
 	
-	local dimensionArray = AqwamTensorLibrary3D:getSize(tensor)
+	local dimensionSizeArray = AqwamTensorLibrary3D:getSize(tensor)
 
-	for dimension1 = 1, dimensionArray[1], 1 do
+	for dimension1 = 1, dimensionSizeArray[1], 1 do
 
 		result[dimension1] = {}
 
-		for dimension2 = 1, dimensionArray[2], 1 do
+		for dimension2 = 1, dimensionSizeArray[2], 1 do
 
 			result[dimension1][dimension2] = {}
 
-			for dimension3 = 1, dimensionArray[3], 1 do
+			for dimension3 = 1, dimensionSizeArray[3], 1 do
 
 				result[dimension1][dimension2][dimension3] = -tensor[dimension1][dimension2][dimension3]
 
