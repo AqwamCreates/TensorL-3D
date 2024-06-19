@@ -28,17 +28,17 @@
 
 local AqwamTensorLibrary3D = {}
 
-local function create3DTensor(dimensionArray, initialValue)
+local function create3DTensor(dimensionSizeArray, initialValue)
 	
 	local result = {}
 
-	for dimension1 = 1, dimensionArray[1], 1 do
+	for dimension1 = 1, dimensionSizeArray[1], 1 do
 
 		result[dimension1] =  {}
 
-		for dimension2 = 1, dimensionArray[2], 1 do
+		for dimension2 = 1, dimensionSizeArray[2], 1 do
 
-			result[dimension1][dimension2] = table.create(dimensionArray[3], initialValue)
+			result[dimension1][dimension2] = table.create(dimensionSizeArray[3], initialValue)
 
 		end
 
@@ -48,19 +48,19 @@ local function create3DTensor(dimensionArray, initialValue)
 	
 end
 
-local function create3DTensorFromFunction(dimensionArray, functionToApply)
+local function create3DTensorFromFunction(dimensionSizeArray, functionToApply)
 
 	local result = {}
 
-	for dimension1 = 1, dimensionArray[1], 1 do
+	for dimension1 = 1, dimensionSizeArray[1], 1 do
 
 		result[dimension1] =  {}
 
-		for dimension2 = 1, dimensionArray[2], 1 do
+		for dimension2 = 1, dimensionSizeArray[2], 1 do
 			
 			result[dimension1][dimension2] =  {}
 			
-			for dimension3 = 1, dimensionArray[3], 1 do
+			for dimension3 = 1, dimensionSizeArray[3], 1 do
 				
 				result[dimension1][dimension2][dimension3] = functionToApply(dimension1, dimension2, dimension3)
 				
@@ -467,9 +467,9 @@ local function convertValueTo3DTensor(value)
 
 end
 
-local function isDimensionArrayEqual(dimensionArray, otherDimensionArray)
+local function isDimensionArrayEqual(dimensionSizeArray, otherDimensionArray)
 	
-	for index, _ in ipairs(dimensionArray) do if (dimensionArray[index] ~= otherDimensionArray[index]) then return false end end
+	for index, _ in ipairs(dimensionSizeArray) do if (dimensionSizeArray[index] ~= otherDimensionArray[index]) then return false end end
 	
 	return true
 	
@@ -481,15 +481,15 @@ local function throwErrorIfValueIsNot3DTensor(otherTensor)
 
 end
 
-local function throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionArray)
+local function throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionSizeArray)
 
-	if (#dimensionArray ~= 3) then error("The length of dimension array is not equal to 3.") end
+	if (#dimensionSizeArray ~= 3) then error("The length of dimension array is not equal to 3.") end
 
 end
 
-local function throwErrorIfDimensionArrayIsNotEqual(dimensionArray, otherDimensionArray)
+local function throwErrorIfDimensionArrayIsNotEqual(dimensionSizeArray, otherDimensionArray)
 
-	if not isDimensionArrayEqual(dimensionArray, otherDimensionArray) then error("The values of dimension arrays are not equal.") end
+	if not isDimensionArrayEqual(dimensionSizeArray, otherDimensionArray) then error("The values of dimension arrays are not equal.") end
 
 end
 
@@ -517,41 +517,41 @@ local function applyFunctionOnMultiple3DTensors(functionToApply, ...)
 	
 end
 
-function AqwamTensorLibrary3D:createTensor(dimensionArray, initialValue)
+function AqwamTensorLibrary3D:createTensor(dimensionSizeArray, initialValue)
 
-	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionArray)
+	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionSizeArray)
 
 	initialValue = initialValue or 0
 
-	return create3DTensor(dimensionArray, initialValue)
+	return create3DTensor(dimensionSizeArray, initialValue)
 
 end
 
-function AqwamTensorLibrary3D:createTensorFromFunction(dimensionArray, functionToApply)
+function AqwamTensorLibrary3D:createTensorFromFunction(dimensionSizeArray, functionToApply)
 	
-	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionArray)
+	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionSizeArray)
 	
 	if (type(functionToApply) == "nil") then error("No function.") end
 
-	return create3DTensorFromFunction(dimensionArray, functionToApply)
+	return create3DTensorFromFunction(dimensionSizeArray, functionToApply)
 	
 end
 
-function AqwamTensorLibrary3D:createIdentityTensor(dimensionArray)
+function AqwamTensorLibrary3D:createIdentityTensor(dimensionSizeArray)
 
-	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionArray)
+	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionSizeArray)
 
 	local newTensor = {}
 
-	for i = 1, dimensionArray[1], 1 do
+	for i = 1, dimensionSizeArray[1], 1 do
 
 		newTensor[i] = {}
 
-		for j = 1, dimensionArray[2], 1 do
+		for j = 1, dimensionSizeArray[2], 1 do
 
 			newTensor[i][j] = {}
 
-			for k = 1, dimensionArray[3], 1 do
+			for k = 1, dimensionSizeArray[3], 1 do
 
 				local areEqual = (i == j) and (j == k)
 
@@ -567,21 +567,21 @@ function AqwamTensorLibrary3D:createIdentityTensor(dimensionArray)
 
 end
 
-function AqwamTensorLibrary3D:createRandomUniformTensor(dimensionArray)
+function AqwamTensorLibrary3D:createRandomUniformTensor(dimensionSizeArray)
 
-	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionArray)
+	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionSizeArray)
 
 	local newTensor = {}
 
-	for i = 1, dimensionArray[1], 1 do
+	for i = 1, dimensionSizeArray[1], 1 do
 
 		newTensor[i] = {}
 
-		for j = 1, dimensionArray[2], 1 do
+		for j = 1, dimensionSizeArray[2], 1 do
 
 			newTensor[i][j] = {}
 
-			for k = 1, dimensionArray[3], 1 do
+			for k = 1, dimensionSizeArray[3], 1 do
 				
 				newTensor[i][j][k] = math.random()
 
@@ -595,9 +595,9 @@ function AqwamTensorLibrary3D:createRandomUniformTensor(dimensionArray)
 
 end
 
-function AqwamTensorLibrary3D:createRandomNormalTensor(dimensionArray, mean, standardDeviation)
+function AqwamTensorLibrary3D:createRandomNormalTensor(dimensionSizeArray, mean, standardDeviation)
 
-	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionArray)
+	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionSizeArray)
 
 	mean = mean or 0
 
@@ -605,15 +605,15 @@ function AqwamTensorLibrary3D:createRandomNormalTensor(dimensionArray, mean, sta
 
 	local newTensor = {}
 
-	for i = 1, dimensionArray[1], 1 do
+	for i = 1, dimensionSizeArray[1], 1 do
 
 		newTensor[i] = {}
 
-		for j = 1, dimensionArray[2], 1 do
+		for j = 1, dimensionSizeArray[2], 1 do
 
 			newTensor[i][j] = {}
 
-			for k = 1, dimensionArray[3], 1 do
+			for k = 1, dimensionSizeArray[3], 1 do
 
 				local randomNumber1 = math.random()
 
@@ -633,9 +633,9 @@ function AqwamTensorLibrary3D:createRandomNormalTensor(dimensionArray, mean, sta
 
 end
 
-function AqwamTensorLibrary3D:expand(tensor, dimensionArray)
+function AqwamTensorLibrary3D:expand(tensor, dimensionSizeArray)
 	
-	return expandTensor(tensor, dimensionArray)
+	return expandTensor(tensor, dimensionSizeArray)
 
 end
 
