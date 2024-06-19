@@ -724,7 +724,7 @@ function AqwamTensorLibrary3D:generateTensorString(tensor)
 	
 end
 
-function AqwamTensorLibrary3D:print(tensor)
+function AqwamTensorLibrary3D:printTensor(tensor)
 	
 	throwErrorIfValueIsNot3DTensor(tensor)
 
