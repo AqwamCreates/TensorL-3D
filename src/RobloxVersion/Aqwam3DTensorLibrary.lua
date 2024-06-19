@@ -397,9 +397,9 @@ end
 
 local function sum(tensor, dimension)
 	
-	local dimensionArray = AqwamTensorLibrary3D:getSize(tensor)
+	local dimensionSizeArray = AqwamTensorLibrary3D:getSize(tensor)
 
-	local newDimensionArray = deepCopyTable(dimensionArray)
+	local newDimensionArray = deepCopyTable(dimensionSizeArray)
 
 	if (dimension) then
 
@@ -411,11 +411,11 @@ local function sum(tensor, dimension)
 
 	local result = (not dimension and 0) or AqwamTensorLibrary3D:createTensor(newDimensionArray, 0)
 
-	for dimension1 = 1, dimensionArray[1], 1 do
+	for dimension1 = 1, dimensionSizeArray[1], 1 do
 
-		for dimension2 = 1, dimensionArray[2], 1 do
+		for dimension2 = 1, dimensionSizeArray[2], 1 do
 
-			for dimension3 = 1, dimensionArray[3], 1 do
+			for dimension3 = 1, dimensionSizeArray[3], 1 do
 
 				if (dimension == nil) then
 
