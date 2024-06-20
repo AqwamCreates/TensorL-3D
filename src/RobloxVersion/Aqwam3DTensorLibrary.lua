@@ -29,7 +29,7 @@
 local AqwamTensorLibrary3D = {}
 
 local function create3DTensor(dimensionSizeArray, initialValue)
-	
+
 	local result = {}
 
 	for dimension1 = 1, dimensionSizeArray[1], 1 do
@@ -43,9 +43,9 @@ local function create3DTensor(dimensionSizeArray, initialValue)
 		end
 
 	end
-	
+
 	return result
-	
+
 end
 
 local function create3DTensorFromFunction(dimensionSizeArray, functionToApply)
@@ -57,13 +57,13 @@ local function create3DTensorFromFunction(dimensionSizeArray, functionToApply)
 		result[dimension1] =  {}
 
 		for dimension2 = 1, dimensionSizeArray[2], 1 do
-			
+
 			result[dimension1][dimension2] =  {}
-			
+
 			for dimension3 = 1, dimensionSizeArray[3], 1 do
-				
+
 				result[dimension1][dimension2][dimension3] = functionToApply(dimension1, dimension2, dimension3)
-				
+
 			end
 
 		end
@@ -182,11 +182,11 @@ local function checkIfCanBroadcast(tensor1, tensor2)
 end
 
 local function expandTensor(tensor, targetDimensionArray)
-	
+
 	local targetDepthSize = targetDimensionArray[1]
-	
+
 	local targetRowSize = targetDimensionArray[2]
-	
+
 	local targetColumnSize = targetDimensionArray[3]
 
 	local isDepthSizeEqualToOne = (#tensor == 1)
@@ -352,13 +352,13 @@ local function broadcastTensorsIfDifferentSizes(tensor1, tensor2)
 	local isTensor1Broadcasted, isTensor2Broadcasted = checkIfCanBroadcast(tensor1, tensor2)
 
 	if (isTensor1Broadcasted) then
-		
+
 		local targetDimensionArray = AqwamTensorLibrary3D:getSize(tensor2)
 
 		tensor1 = expandTensor(tensor1, targetDimensionArray)
 
 	elseif (isTensor2Broadcasted) then
-		
+
 		local targetDimensionArray = AqwamTensorLibrary3D:getSize(tensor1)
 
 		tensor2 = expandTensor(tensor2, targetDimensionArray)
@@ -370,15 +370,15 @@ local function broadcastTensorsIfDifferentSizes(tensor1, tensor2)
 end
 
 local function applyFunction(functionToApply, tensor1, tensor2)
-	
+
 	local result = {}
-	
+
 	for dimension1 = 1, #tensor1, 1 do
-		
+
 		result[dimension1] = {}
 
 		for dimension2 = 1, #tensor1[dimension1], 1 do
-			
+
 			result[dimension1][dimension2] = {}
 
 			for dimension3 = 1, #tensor1[dimension1][dimension2], 1 do
@@ -390,13 +390,13 @@ local function applyFunction(functionToApply, tensor1, tensor2)
 		end
 
 	end
-	
+
 	return result
-	
+
 end
 
 local function sum(tensor, dimension)
-	
+
 	local dimensionSizeArray = AqwamTensorLibrary3D:getSize(tensor)
 
 	local newDimensionArray = deepCopyTable(dimensionSizeArray)
@@ -444,9 +444,9 @@ local function sum(tensor, dimension)
 		end	
 
 	end
-	
+
 	return result
-	
+
 end
 
 local function is3DTensor(tensor)
@@ -468,11 +468,11 @@ local function convertValueTo3DTensor(value)
 end
 
 local function isDimensionArrayEqual(dimensionSizeArray, otherDimensionArray)
-	
+
 	for index, _ in ipairs(dimensionSizeArray) do if (dimensionSizeArray[index] ~= otherDimensionArray[index]) then return false end end
-	
+
 	return true
-	
+
 end
 
 local function throwErrorIfValueIsNot3DTensor(otherTensor)
@@ -494,27 +494,27 @@ local function throwErrorIfDimensionArrayIsNotEqual(dimensionSizeArray, otherDim
 end
 
 local function applyFunctionOnMultiple3DTensors(functionToApply, ...)
-	
+
 	local tensorArray = {...}
-	
+
 	local result = deepCopyTable(tensorArray[1])
-	
+
 	result = convertValueTo3DTensor(result)
-	
+
 	for i = 2, #tensorArray, 1 do
-		
+
 		local otherTensor = tensorArray[i]
 
 		otherTensor = convertValueTo3DTensor(otherTensor)
-		
+
 		result, otherTensor = broadcastTensorsIfDifferentSizes(result, otherTensor)
-		
+
 		result = applyFunction(functionToApply, result, otherTensor)
-		
+
 	end
-	
+
 	return result
-	
+
 end
 
 function AqwamTensorLibrary3D:createTensor(dimensionSizeArray, initialValue)
@@ -528,13 +528,13 @@ function AqwamTensorLibrary3D:createTensor(dimensionSizeArray, initialValue)
 end
 
 function AqwamTensorLibrary3D:createTensorFromFunction(dimensionSizeArray, functionToApply)
-	
+
 	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionSizeArray)
-	
+
 	if (type(functionToApply) == "nil") then error("No function.") end
 
 	return create3DTensorFromFunction(dimensionSizeArray, functionToApply)
-	
+
 end
 
 function AqwamTensorLibrary3D:createIdentityTensor(dimensionSizeArray)
@@ -582,7 +582,7 @@ function AqwamTensorLibrary3D:createRandomUniformTensor(dimensionSizeArray)
 			newTensor[i][j] = {}
 
 			for k = 1, dimensionSizeArray[3], 1 do
-				
+
 				newTensor[i][j][k] = math.random()
 
 			end
@@ -634,17 +634,17 @@ function AqwamTensorLibrary3D:createRandomNormalTensor(dimensionSizeArray, mean,
 end
 
 function AqwamTensorLibrary3D:expand(tensor, dimensionSizeArray)
-	
+
 	return expandTensor(tensor, dimensionSizeArray)
 
 end
 
 function AqwamTensorLibrary3D:getSize(tensor)
-	
+
 	throwErrorIfValueIsNot3DTensor(tensor)
-	
+
 	return {#tensor, #tensor[1], #tensor[1][1]}
-	
+
 end
 
 function AqwamTensorLibrary3D:generateTensor2DString(tensor2D)
@@ -705,7 +705,7 @@ function AqwamTensorLibrary3D:generateTensor2DString(tensor2D)
 end
 
 function AqwamTensorLibrary3D:generateTensorString(tensor)
-	
+
 	local text = "\n\n{\n\n"
 
 	local generatedText
@@ -719,19 +719,19 @@ function AqwamTensorLibrary3D:generateTensorString(tensor)
 	end
 
 	text = text .. "}\n\n"
-	
+
 	return text
-	
+
 end
 
 function AqwamTensorLibrary3D:printTensor(tensor)
-	
+
 	throwErrorIfValueIsNot3DTensor(tensor)
 
 	local text = AqwamTensorLibrary3D:generateTensorString(tensor)
-	
+
 	print(text)
-	
+
 end
 
 function AqwamTensorLibrary3D:transpose(tensor, dimensionIndexArray)
@@ -810,8 +810,8 @@ function AqwamTensorLibrary3D:transpose(tensor, dimensionIndexArray)
 
 end
 
-function AqwamTensorLibrary3D:isSameMatrix(tensor1, tensor2)
-	
+function AqwamTensorLibrary3D:isSameTensor(tensor1, tensor2)
+
 	local dimensionSizeArray1 = AqwamTensorLibrary3D:getSize(tensor1)
 
 	local dimensionSizeArray2 = AqwamTensorLibrary3D:getSize(tensor2)
@@ -837,13 +837,13 @@ function AqwamTensorLibrary3D:isSameMatrix(tensor1, tensor2)
 	end
 
 	return true
-	
+
 end
 
 function AqwamTensorLibrary3D:isEqualTo(tensor1, tensor2)
-	
+
 	throwErrorIfValueIsNot3DTensor(tensor1)
-	
+
 	throwErrorIfValueIsNot3DTensor(tensor2)
 
 	local functionToApply = function(a, b) return (a == b) end
@@ -887,7 +887,7 @@ function AqwamTensorLibrary3D:isLessThan(tensor1, tensor2)
 	throwErrorIfValueIsNot3DTensor(tensor1)
 
 	throwErrorIfValueIsNot3DTensor(tensor2)
-	
+
 	local functionToApply = function(a, b) return (a < b) end
 
 	local result = applyFunction(functionToApply, tensor1, tensor2)
@@ -911,9 +911,9 @@ function AqwamTensorLibrary3D:isLessOrEqualTo(tensor1, tensor2)
 end
 
 function AqwamTensorLibrary3D:sum(tensor, dimension)
-	
+
 	return sum(tensor, dimension)
-	
+
 end
 
 function AqwamTensorLibrary3D:concatenate(tensor1, tensor2, dimension)
@@ -921,9 +921,9 @@ function AqwamTensorLibrary3D:concatenate(tensor1, tensor2, dimension)
 	if (dimension <= 0) or (dimension >= 4) then error("The dimension must be between 1 and 3.") end
 
 	tensor1 = convertValueTo3DTensor(tensor1)
-	
+
 	tensor2 = convertValueTo3DTensor(tensor2)
-	
+
 	throwErrorIfValueIsNot3DTensor(tensor1)
 
 	throwErrorIfValueIsNot3DTensor(tensor2)
@@ -1033,25 +1033,25 @@ function AqwamTensorLibrary3D:concatenate(tensor1, tensor2, dimension)
 end
 
 function AqwamTensorLibrary3D:dotProduct(tensor1, tensor2) -- Refer to this article. It was a fucking headache to do this. https://medium.com/@hunter-j-phillips/a-simple-introduction-to-tensors-c4a8321efffc
-	
+
 	tensor1 = convertValueTo3DTensor(tensor1)
-	
+
 	tensor2 = convertValueTo3DTensor(tensor2)
-	
+
 	throwErrorIfValueIsNot3DTensor(tensor1)
-	
+
 	throwErrorIfValueIsNot3DTensor(tensor2)
-	
+
 	local dimensionSizeArray1 = AqwamTensorLibrary3D:getSize(tensor1)
-	
+
 	local dimensionSizeArray2 = AqwamTensorLibrary3D:getSize(tensor2)
-	
+
 	if (dimensionSizeArray1[1] ~= dimensionSizeArray2[1]) then error("The tensors do not contain equal dimension values at dimension 1.") end
 
 	if (dimensionSizeArray1[3] ~= dimensionSizeArray2[2]) then error("The size of the dimension 3 of the first tensor is not equal to the size of dimension 2 of the second tensor.") end
 
 	local newTensor = create3DTensor({dimensionSizeArray1[1], dimensionSizeArray1[2], dimensionSizeArray2[3]}, true)
-	
+
 	for i = 1, dimensionSizeArray1[1], 1 do
 
 		for j = 1, dimensionSizeArray1[2], 1 do
@@ -1069,49 +1069,49 @@ function AqwamTensorLibrary3D:dotProduct(tensor1, tensor2) -- Refer to this arti
 		end
 
 	end
-	
+
 	return newTensor
-	
+
 end
 
 function AqwamTensorLibrary3D:innerProduct(...)
-	
+
 	local tensorArray = {...}
-	
+
 	local result = tensorArray[1]
-	
+
 	result = convertValueTo3DTensor(result)
-	
+
 	local functionToApply = function(a, b) return (a * b) end
-	
+
 	throwErrorIfValueIsNot3DTensor(result)
-	
+
 	for i = 2, #tensorArray, 1 do
-		
+
 		local otherTensor = tensorArray[i]
-		
+
 		otherTensor = convertValueTo3DTensor(otherTensor)
-		
+
 		throwErrorIfValueIsNot3DTensor(otherTensor)
-		
+
 		result = applyFunction(functionToApply, result, otherTensor)
-		
+
 		result = AqwamTensorLibrary3D:sum(result, 1)
 
 		result = AqwamTensorLibrary3D:sum(result, 2)
-		
+
 		result = AqwamTensorLibrary3D:sum(result, 3)
-		
+
 	end
-	
+
 	return result[1][1][1]
 
 end
 
 function AqwamTensorLibrary3D:copy(tensor)
-	
+
 	return deepCopyTable(tensor)
-	
+
 end
 
 function AqwamTensorLibrary3D:applyFunction(functionToApply, ...)
@@ -1119,9 +1119,9 @@ function AqwamTensorLibrary3D:applyFunction(functionToApply, ...)
 	local tensorValues
 
 	local tensorsArray = {...}
-	
+
 	local dimensionSizeArray = AqwamTensorLibrary3D:getSize(tensorsArray[1])
-	
+
 	local result = create3DTensor(dimensionSizeArray)
 
 	for dimension1 = 1, dimensionSizeArray[1], 1 do
@@ -1129,27 +1129,27 @@ function AqwamTensorLibrary3D:applyFunction(functionToApply, ...)
 		for dimension2 = 1, dimensionSizeArray[2], 1 do
 
 			for dimension3 = 1, dimensionSizeArray[3], 1 do
-				
+
 				tensorValues = {}
-				
+
 				for i, value in ipairs(tensorsArray) do
-					
+
 					if (type(value) == "number") then
-						
+
 						table.insert(tensorValues, value)
-						
+
 					else
-						
+
 						table.insert(tensorValues, value[dimension1][dimension2][dimension3])
-						
+
 					end
-					
+
 				end
-				
+
 				result[dimension1][dimension2][dimension3] = functionToApply(table.unpack(tensorValues))
-				
+
 			end
-			
+
 		end	
 
 	end
@@ -1159,11 +1159,11 @@ function AqwamTensorLibrary3D:applyFunction(functionToApply, ...)
 end
 
 function AqwamTensorLibrary3D:add(...)
-	
+
 	local functionToApply = function(a, b) return (a + b) end
 
 	return applyFunctionOnMultiple3DTensors(functionToApply, ...)
-	
+
 end
 
 function AqwamTensorLibrary3D:subtract(...)
@@ -1171,15 +1171,15 @@ function AqwamTensorLibrary3D:subtract(...)
 	local functionToApply = function(a, b) return (a - b) end
 
 	return applyFunctionOnMultiple3DTensors(functionToApply, ...)
-	
+
 end
 
 function AqwamTensorLibrary3D:multiply(...)
-	
+
 	local functionToApply = function(a, b) return (a * b) end
 
 	return applyFunctionOnMultiple3DTensors(functionToApply, ...)
-	
+
 end
 
 function AqwamTensorLibrary3D:divide(...)
@@ -1187,13 +1187,13 @@ function AqwamTensorLibrary3D:divide(...)
 	local functionToApply = function(a, b) return (a / b) end
 
 	return applyFunctionOnMultiple3DTensors(functionToApply, ...)
-	
+
 end
 
 function AqwamTensorLibrary3D:logarithm(...)
 
 	return applyFunctionOnMultiple3DTensors(math.log, ...)
-	
+
 end
 
 function AqwamTensorLibrary3D:exponent(...)
@@ -1209,9 +1209,9 @@ function AqwamTensorLibrary3D:power(...)
 end
 
 function AqwamTensorLibrary3D:unaryMinus(tensor)
-	
+
 	local result = {}
-	
+
 	local dimensionSizeArray = AqwamTensorLibrary3D:getSize(tensor)
 
 	for dimension1 = 1, dimensionSizeArray[1], 1 do
@@ -1231,9 +1231,9 @@ function AqwamTensorLibrary3D:unaryMinus(tensor)
 		end
 
 	end
-	
+
 	return result
-	
+
 end
 
 return AqwamTensorLibrary3D
