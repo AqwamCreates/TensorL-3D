@@ -181,7 +181,7 @@ local function checkIfCanBroadcast(tensor1, tensor2)
 
 end
 
-local function expandTensor(tensor, targetDimensionArray)
+function AqwamTensorLibrary3D:expand(tensor, targetDimensionArray)
 
 	local targetDepthSize = targetDimensionArray[1]
 
@@ -355,13 +355,13 @@ local function broadcastTensorsIfDifferentSizes(tensor1, tensor2)
 
 		local targetDimensionArray = AqwamTensorLibrary3D:getSize(tensor2)
 
-		tensor1 = expandTensor(tensor1, targetDimensionArray)
+		tensor1 = AqwamTensorLibrary3D:expand(tensor1, targetDimensionArray)
 
 	elseif (isTensor2Broadcasted) then
 
 		local targetDimensionArray = AqwamTensorLibrary3D:getSize(tensor1)
 
-		tensor2 = expandTensor(tensor2, targetDimensionArray)
+		tensor2 = AqwamTensorLibrary3D:expand(tensor2, targetDimensionArray)
 
 	end
 
@@ -630,12 +630,6 @@ function AqwamTensorLibrary3D:createRandomNormalTensor(dimensionSizeArray, mean,
 	end
 
 	return newTensor
-
-end
-
-function AqwamTensorLibrary3D:expand(tensor, dimensionSizeArray)
-
-	return expandTensor(tensor, dimensionSizeArray)
 
 end
 
