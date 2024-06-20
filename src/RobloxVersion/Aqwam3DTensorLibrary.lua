@@ -395,7 +395,7 @@ local function applyFunction(functionToApply, tensor1, tensor2)
 
 end
 
-local function sum(tensor, dimension)
+function AqwamTensorLibrary3D:sum(tensor, dimension)
 
 	local dimensionSizeArray = AqwamTensorLibrary3D:getSize(tensor)
 
@@ -901,12 +901,6 @@ function AqwamTensorLibrary3D:isLessOrEqualTo(tensor1, tensor2)
 	local result = applyFunction(functionToApply, tensor1, tensor2)
 
 	return result
-
-end
-
-function AqwamTensorLibrary3D:sum(tensor, dimension)
-
-	return sum(tensor, dimension)
 
 end
 
