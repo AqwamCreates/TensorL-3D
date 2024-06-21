@@ -457,18 +457,28 @@ local function is3DTensor(tensor)
 
 end
 
+local function convertValueTo3DTensor(value)
+
+	if is3DTensor(value) then return value end
+
+	if (type(value) ~= "number") then error("Cannot convert value into 3D tensor.") end
+
+	return {{{value}}}
+
+end
+
 local function getOutOfBoundsIndexArray(array, arrayToBeCheckedForOutOfBounds)
-	
+
 	local outOfBoundsIndexArray = {}
-		
+
 	for i, value in ipairs(arrayToBeCheckedForOutOfBounds) do
 
 		if (value < 1) or (value > array[i]) then table.insert(outOfBoundsIndexArray, i) end
 
 	end
-	
+
 	return outOfBoundsIndexArray
-		
+
 end
 
 local function getFalseBooleanIndexArray(functionToApply, array1, array2)
@@ -482,16 +492,6 @@ local function getFalseBooleanIndexArray(functionToApply, array1, array2)
 	end
 
 	return falseBooleanIndexArray
-
-end
-
-local function convertValueTo3DTensor(value)
-
-	if is3DTensor(value) then return value end
-
-	if (type(value) ~= "number") then error("Cannot convert value into 3D tensor.") end
-
-	return {{{value}}}
 
 end
 
