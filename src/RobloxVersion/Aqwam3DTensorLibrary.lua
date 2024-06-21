@@ -1312,7 +1312,7 @@ function AqwamTensorLibrary3D:extract(tensor, originDimensionIndexArray, targetD
 	
 	if (falseBooleanIndexArraySize > 0) then
 		
-		local errorString = "The origin dimension size is larger than the target dimension size at "
+		local errorString = "The origin dimension index is larger than the target dimension index for dimensions at "
 		
 		for i, index in ipairs(originDimensionIndexArray) do
 
