@@ -457,6 +457,34 @@ local function is3DTensor(tensor)
 
 end
 
+local function getOutOfBoundsIndexArray(array, arrayToBeCheckedForOutOfBounds)
+	
+	local outOfBoundsIndexArray = {}
+		
+	for i, value in ipairs(arrayToBeCheckedForOutOfBounds) do
+
+		if (value < 1) or (value > array[i]) then table.insert(outOfBoundsIndexArray, i) end
+
+	end
+	
+	return outOfBoundsIndexArray
+		
+end
+
+local function getFalseBooleanIndexArray(functionToApply, array1, array2)
+
+	local falseBooleanIndexArray = {}
+
+	for i, value in ipairs(array1) do
+
+		if (not functionToApply(value, array2[i])) then table.insert(falseBooleanIndexArray, i) end
+
+	end
+
+	return falseBooleanIndexArray
+
+end
+
 local function convertValueTo3DTensor(value)
 
 	if is3DTensor(value) then return value end
@@ -1222,6 +1250,106 @@ function AqwamTensorLibrary3D:unaryMinus(tensor)
 
 	return result
 
+end
+
+function AqwamTensorLibrary3D:extract(tensor, originDimensionIndexArray, targetDimensionIndexArray)
+	
+	local dimensionSizeArray = AqwamTensorLibrary3D:getSize(tensor)
+	
+	local numberOfDimensions = #dimensionSizeArray
+	
+	if (numberOfDimensions ~= #originDimensionIndexArray) then error("Invalid origin dimension index array.") end
+		
+	if (numberOfDimensions ~= #targetDimensionIndexArray) then error("Invalid target dimension index array.") end
+	
+	local outOfBoundsOriginIndexArray = getOutOfBoundsIndexArray(dimensionSizeArray, originDimensionIndexArray)
+	
+	local outOfBoundsTargetIndexArray = getOutOfBoundsIndexArray(dimensionSizeArray, targetDimensionIndexArray)
+	
+	local falseBooleanIndexArray = getFalseBooleanIndexArray(function(a, b) return (a < b) end, originDimensionIndexArray, targetDimensionIndexArray)
+	
+	local outOfBoundsOriginIndexArraySize = #outOfBoundsOriginIndexArray
+	
+	local outOfBoundsTargetIndexArraySize = #outOfBoundsTargetIndexArray
+	
+	local falseBooleanIndexArraySize = #falseBooleanIndexArray
+	
+	if (outOfBoundsOriginIndexArraySize > 0) then
+		
+		local errorString = "Attempting to set an origin dimension index that is out of bounds for dimension at "
+		
+		for i, index in ipairs(originDimensionIndexArray) do
+
+			errorString = errorString .. index
+			
+			if (i < outOfBoundsOriginIndexArraySize) then errorString = errorString .. ", " end
+
+		end
+		
+		errorString = errorString .. "."
+		
+		error(errorString)
+		
+	end
+	
+	if (outOfBoundsTargetIndexArraySize > 0) then
+
+		local errorString = "Attempting to set an target dimension index that is out of bounds for dimension at "
+
+		for i, index in ipairs(originDimensionIndexArray) do
+
+			errorString = errorString .. index
+
+			if (i < outOfBoundsTargetIndexArraySize) then errorString = errorString .. ", " end
+
+		end
+
+		errorString = errorString .. "."
+		
+		error(errorString)
+
+	end
+	
+	if (falseBooleanIndexArraySize > 0) then
+		
+		local errorString = "The origin dimension size is larger than the target dimension size at "
+		
+		for i, index in ipairs(originDimensionIndexArray) do
+
+			errorString = errorString .. index
+
+			if (i < falseBooleanIndexArraySize) then errorString = errorString .. ", " end
+
+		end
+
+		errorString = errorString .. "."
+
+		error(errorString)
+		
+	end
+	
+	local result = {}
+
+	for dimension1 = originDimensionIndexArray[1], targetDimensionIndexArray[1], 1 do
+
+		result[dimension1] = {}
+
+		for dimension2 = originDimensionIndexArray[2], targetDimensionIndexArray[2], 1 do
+
+			result[dimension1][dimension2] = {}
+
+			for dimension3 = originDimensionIndexArray[3], targetDimensionIndexArray[3], 1 do
+
+				result[dimension1][dimension2][dimension3] = tensor[dimension1][dimension2][dimension3]
+
+			end
+
+		end
+
+	end
+	
+	return result
+	
 end
 
 return AqwamTensorLibrary3D
