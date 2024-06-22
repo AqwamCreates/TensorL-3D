@@ -2,7 +2,7 @@
 
 	--------------------------------------------------------------------
 
-	Version 0.1.0
+	Version 0.0.0
 
 	Aqwam's 3D Tensor Library (TensorL3D)
 
@@ -1394,6 +1394,16 @@ function AqwamTensorLibrary3D:extract(originDimensionIndexArray, targetDimension
 	end
 
 	return result
+
+end
+
+function AqwamTensorLibrary3D:destroy()
+
+	setmetatable(self, nil)
+
+	table.clear(self)
+
+	self = nil
 
 end
 
