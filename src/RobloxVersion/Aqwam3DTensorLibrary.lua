@@ -390,7 +390,7 @@ local function broadcastTensorsIfDifferentSizes(tensor1, tensor2)
 
 end
 
-local function applyFunction(functionToApply, tensor1, tensor2)
+local function applyFunctionUsingTwoTensors(functionToApply, tensor1, tensor2)
 
 	local result = {}
 
@@ -405,6 +405,32 @@ local function applyFunction(functionToApply, tensor1, tensor2)
 			for dimension3 = 1, #tensor1[dimension1][dimension2], 1 do
 
 				result[dimension1][dimension2][dimension3] = functionToApply(tensor1[dimension1][dimension2][dimension3], tensor2[dimension1][dimension2][dimension3]) 
+
+			end
+
+		end
+
+	end
+
+	return result
+
+end
+
+local function applyFunctionUsingOneTensor(functionToApply, tensor)
+
+	local result = {}
+
+	for dimension1 = 1, #tensor, 1 do
+
+		result[dimension1] = {}
+
+		for dimension2 = 1, #tensor[dimension1], 1 do
+
+			result[dimension1][dimension2] = {}
+
+			for dimension3 = 1, #tensor[dimension1][dimension2], 1 do
+
+				result[dimension1][dimension2][dimension3] = functionToApply(tensor[dimension1][dimension2][dimension3]) 
 
 			end
 
@@ -527,12 +553,16 @@ end
 local function applyFunctionOnMultiple3DTensors(functionToApply, ...)
 
 	local tensorArray = {...}
+	
+	local numberOfTensors = #tensorArray
+	
+	local firstTensor = tensorArray[1]
+	
+	if (numberOfTensors == 1) then return applyFunctionUsingOneTensor(functionToApply, firstTensor) end
 
-	local result = deepCopyTable(tensorArray[1])
+	local result = convertValueTo3DTensor(firstTensor)
 
-	result = convertValueTo3DTensor(result)
-
-	for i = 2, #tensorArray, 1 do
+	for i = 2, numberOfTensors, 1 do
 
 		local otherTensor = tensorArray[i]
 
@@ -540,7 +570,7 @@ local function applyFunctionOnMultiple3DTensors(functionToApply, ...)
 
 		result, otherTensor = broadcastTensorsIfDifferentSizes(result, otherTensor)
 
-		result = applyFunction(functionToApply, result, otherTensor)
+		result = applyFunctionUsingTwoTensors(functionToApply, result, otherTensor)
 
 	end
 
@@ -873,7 +903,7 @@ function AqwamTensorLibrary3D:isEqualTo(tensor1, tensor2)
 
 	local functionToApply = function(a, b) return (a == b) end
 
-	local result = applyFunction(functionToApply, tensor1, tensor2)
+	local result = applyFunctionUsingTwoTensors(functionToApply, tensor1, tensor2)
 
 	return result
 
@@ -887,7 +917,7 @@ function AqwamTensorLibrary3D:isGreaterThan(tensor1, tensor2)
 
 	local functionToApply = function(a, b) return (a > b) end
 
-	local result = applyFunction(functionToApply, tensor1, tensor2)
+	local result = applyFunctionUsingTwoTensors(functionToApply, tensor1, tensor2)
 
 	return result
 
@@ -901,7 +931,7 @@ function AqwamTensorLibrary3D:isGreaterOrEqualTo(tensor1, tensor2)
 
 	local functionToApply = function(a, b) return (a >= b) end
 
-	local result = applyFunction(functionToApply, tensor1, tensor2)
+	local result = applyFunctionUsingTwoTensors(functionToApply, tensor1, tensor2)
 
 	return result
 
@@ -915,7 +945,7 @@ function AqwamTensorLibrary3D:isLessThan(tensor1, tensor2)
 
 	local functionToApply = function(a, b) return (a < b) end
 
-	local result = applyFunction(functionToApply, tensor1, tensor2)
+	local result = applyFunctionUsingTwoTensors(functionToApply, tensor1, tensor2)
 
 	return result
 
@@ -929,7 +959,7 @@ function AqwamTensorLibrary3D:isLessOrEqualTo(tensor1, tensor2)
 
 	local functionToApply = function(a, b) return (a <= b) end
 
-	local result = applyFunction(functionToApply, tensor1, tensor2)
+	local result = applyFunctionUsingTwoTensors(functionToApply, tensor1, tensor2)
 
 	return result
 
@@ -1113,7 +1143,7 @@ function AqwamTensorLibrary3D:innerProduct(...)
 
 		throwErrorIfValueIsNot3DTensor(otherTensor)
 
-		result = applyFunction(functionToApply, result, otherTensor)
+		result = applyFunctionUsingTwoTensors(functionToApply, result, otherTensor)
 
 		result = AqwamTensorLibrary3D:sum(result, 1)
 
