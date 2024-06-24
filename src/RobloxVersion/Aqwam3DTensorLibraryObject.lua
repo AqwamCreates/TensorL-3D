@@ -114,7 +114,7 @@ local function deepCopyTable(original, copies)
 
 end
 
-local function applyFunction(functionToApply, tensor1, tensor2)
+local function applyFunctionUsingTwoTensors(functionToApply, tensor1, tensor2)
 
 	local result = {}
 
@@ -129,6 +129,32 @@ local function applyFunction(functionToApply, tensor1, tensor2)
 			for dimension3 = 1, #tensor1[dimension1][dimension2], 1 do
 
 				result[dimension1][dimension2][dimension3] = functionToApply(tensor1[dimension1][dimension2][dimension3], tensor2[dimension1][dimension2][dimension3]) 
+
+			end
+
+		end
+
+	end
+
+	return result
+
+end
+
+local function applyFunctionUsingOneTensor(functionToApply, tensor)
+
+	local result = {}
+
+	for dimension1 = 1, #tensor, 1 do
+
+		result[dimension1] = {}
+
+		for dimension2 = 1, #tensor[dimension1], 1 do
+
+			result[dimension1][dimension2] = {}
+
+			for dimension3 = 1, #tensor[dimension1][dimension2], 1 do
+
+				result[dimension1][dimension2][dimension3] = functionToApply(tensor[dimension1][dimension2][dimension3]) 
 
 			end
 
@@ -809,7 +835,7 @@ function AqwamTensorLibrary3D:isEqualTo(other)
 
 	local functionToApply = function(a, b) return (a == b) end
 
-	local result = applyFunction(functionToApply, self, other)
+	local result = applyFunctionUsingTwoTensors(functionToApply, self, other)
 
 	return self.new(result)
 
@@ -821,7 +847,7 @@ function AqwamTensorLibrary3D:isGreaterThan(other)
 
 	local functionToApply = function(a, b) return (a > b) end
 
-	local result = applyFunction(functionToApply, self, other)
+	local result = applyFunctionUsingTwoTensors(functionToApply, self, other)
 
 	return self.new(result)
 
@@ -833,7 +859,7 @@ function AqwamTensorLibrary3D:isGreaterOrEqualTo(other)
 
 	local functionToApply = function(a, b) return (a >= b) end
 
-	local result = applyFunction(functionToApply, self, other)
+	local result = applyFunctionUsingTwoTensors(functionToApply, self, other)
 
 	return self.new(result)
 
@@ -845,7 +871,7 @@ function AqwamTensorLibrary3D:isLessThan(other)
 
 	local functionToApply = function(a, b) return (a < b) end
 
-	local result = applyFunction(functionToApply, self, other)
+	local result = applyFunctionUsingTwoTensors(functionToApply, self, other)
 
 	return self.new(result)
 
@@ -857,7 +883,7 @@ function AqwamTensorLibrary3D:isLessOrEqualTo(other)
 
 	local functionToApply = function(a, b) return (a <= b) end
 
-	local result = applyFunction(functionToApply, self, other)
+	local result = applyFunctionUsingTwoTensors(functionToApply, self, other)
 
 	return self.new(result)
 
@@ -1028,7 +1054,7 @@ function AqwamTensorLibrary3D:innerProduct(other)
 
 	local functionToApply = function(a, b) return (a * b) end
 
-	local result = applyFunction(functionToApply, self, other)
+	local result = applyFunctionUsingTwoTensors(functionToApply, self, other)
 
 	result = sum(result, 1)
 
@@ -1106,7 +1132,7 @@ function AqwamTensorLibrary3D:__add(other)
 
 	local functionToApply = function(a, b) return (a + b) end
 
-	local result = applyFunction(functionToApply, newSelf, newOther)
+	local result = applyFunctionUsingTwoTensors(functionToApply, newSelf, newOther)
 
 	return self.new(result)
 
@@ -1122,7 +1148,7 @@ function AqwamTensorLibrary3D:__sub(other)
 
 	local functionToApply = function(a, b) return (a - b) end
 
-	local result = applyFunction(functionToApply, newSelf, newOther)
+	local result = applyFunctionUsingTwoTensors(functionToApply, newSelf, newOther)
 
 	return self.new(result)
 
@@ -1138,7 +1164,7 @@ function AqwamTensorLibrary3D:__mul(other)
 
 	local functionToApply = function(a, b) return (a * b) end
 
-	local result = applyFunction(functionToApply, newSelf, newOther)
+	local result = applyFunctionUsingTwoTensors(functionToApply, newSelf, newOther)
 
 	return self.new(result)
 
@@ -1154,7 +1180,7 @@ function AqwamTensorLibrary3D:__div(other)
 
 	local functionToApply = function(a, b) return (a / b) end
 
-	local result = applyFunction(functionToApply, newSelf, newOther)
+	local result = applyFunctionUsingTwoTensors(functionToApply, newSelf, newOther)
 
 	return self.new(result)
 
@@ -1182,6 +1208,30 @@ function AqwamTensorLibrary3D:__unm()
 
 		end
 
+	end
+
+	return self.new(result)
+
+end
+
+function AqwamTensorLibrary3D:log(other)
+	
+	local result 
+	
+	if (other) then
+		
+		other =  self:convertValueTo3DTensor(other)
+
+		throwErrorIfOtherValueIsNot3DTensor(other)
+
+		local newSelf, newOther = broadcastTensorsIfDifferentSizes(self, other)
+		
+		result = applyFunctionUsingTwoTensors(math.log, newSelf, newOther)
+		
+	else
+		
+		result = applyFunctionUsingOneTensor(math.log, self)
+		
 	end
 
 	return self.new(result)
