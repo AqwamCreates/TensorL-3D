@@ -1214,7 +1214,7 @@ function AqwamTensorLibrary3D:__unm()
 
 end
 
-function AqwamTensorLibrary3D:log(other)
+function AqwamTensorLibrary3D:logarithm(other)
 	
 	local result 
 	
