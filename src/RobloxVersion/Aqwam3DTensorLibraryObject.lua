@@ -263,6 +263,9 @@ local function onBroadcastError(tensor1, tensor2)
 end
 
 local function checkIfCanBroadcast(tensor1, tensor2)
+	
+	tensor1 = convertValueTo3DTensor(tensor1)
+	tensor2 = convertValueTo3DTensor(tensor2)
 
 	local tensor1Depth = #tensor1
 	local tensor2Depth = #tensor2
