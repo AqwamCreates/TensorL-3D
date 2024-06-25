@@ -122,7 +122,30 @@ local function onBroadcastError(tensor1, tensor2)
 
 end
 
+local function is3DTensor(tensor)
+
+	local isTensor = pcall(function() local _ = tensor[1][1][1] end)
+
+	return isTensor
+
+end
+
+local function convertValueTo3DTensor(value)
+
+	if is3DTensor(value) then return value end
+
+	if (type(value) ~= "number") then error("Cannot convert value into 3D tensor.") end
+
+	return {{{value}}}
+
+end
+
+
 local function checkIfCanBroadcast(tensor1, tensor2)
+	
+	tensor1 = convertValueTo3DTensor(tensor1)
+	
+	tensor2 = convertValueTo3DTensor(tensor2)
 
 	local tensor1Depth = #tensor1
 	local tensor2Depth = #tensor2
@@ -180,25 +203,6 @@ local function checkIfCanBroadcast(tensor1, tensor2)
 	return isTensor1Broadcasted, isTensor2Broadcasted
 
 end
-
-local function is3DTensor(tensor)
-
-	local isTensor = pcall(function() local _ = tensor[1][1][1] end)
-
-	return isTensor
-
-end
-
-local function convertValueTo3DTensor(value)
-
-	if is3DTensor(value) then return value end
-
-	if (type(value) ~= "number") then error("Cannot convert value into 3D tensor.") end
-
-	return {{{value}}}
-
-end
-
 
 function AqwamTensorLibrary3D:expand(tensor, targetDimensionArray)
 	
