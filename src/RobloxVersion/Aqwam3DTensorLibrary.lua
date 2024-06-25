@@ -368,7 +368,7 @@ function AqwamTensorLibrary3D:expand(tensor, targetDimensionArray)
 
 end
 
-local function broadcastTensorsIfDifferentSizes(tensor1, tensor2)
+function AqwamTensorLibrary3D:broadcastATensorIfDifferentSize(tensor1, tensor2)
 
 	local isTensor1Broadcasted, isTensor2Broadcasted = checkIfCanBroadcast(tensor1, tensor2)
 
@@ -568,7 +568,7 @@ local function applyFunctionOnMultiple3DTensors(functionToApply, ...)
 
 		otherTensor = convertValueTo3DTensor(otherTensor)
 
-		result, otherTensor = broadcastTensorsIfDifferentSizes(result, otherTensor)
+		result, otherTensor = AqwamTensorLibrary3D:broadcastATensorIfDifferentSize(result, otherTensor)
 
 		result = applyFunctionUsingTwoTensors(functionToApply, result, otherTensor)
 
