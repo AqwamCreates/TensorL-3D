@@ -4,7 +4,7 @@
 
 	Version 0.0.0
 
-	Aqwam's 3D Tensor Library (TensorL3D)
+	Aqwam's 3D Tensor Library (TensorL-3D)
 
 	Author: Aqwam Harish Aiman
 	
@@ -16,7 +16,7 @@
 	
 	By using or possesing any copies of this library, you agree to our terms and conditions at:
 	
-	https://github.com/AqwamCreates/TensorL3D/blob/main/docs/TermsAndConditions.md
+	https://github.com/AqwamCreates/TensorL-3D/blob/main/docs/TermsAndConditions.md
 	
 	--------------------------------------------------------------------
 	
