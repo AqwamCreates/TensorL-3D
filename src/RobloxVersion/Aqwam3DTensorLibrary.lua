@@ -4,34 +4,6 @@
 
 	Version 0.0.0
 
-	Aqwam's 3D Tensor Library (TensorL-3D)
-
-	Author: Aqwam Harish Aiman
-	
-	YouTube: https://www.youtube.com/channel/UCUrwoxv5dufEmbGsxyEUPZw
-	
-	LinkedIn: https://www.linkedin.com/in/aqwam-harish-aiman/
-	
-	--------------------------------------------------------------------
-	
-	By using or possesing any copies of this library, you agree to our terms and conditions at:
-	
-	https://github.com/AqwamCreates/TensorL-3D/blob/main/docs/TermsAndConditions.md
-	
-	--------------------------------------------------------------------
-	
-	DO NOT REMOVE THIS TEXT WITHOUT PERMISSION!
-	
-	--------------------------------------------------------------------
-
---]]
-
---[[
-
-	--------------------------------------------------------------------
-
-	Version 0.0.0
-
 	Aqwam's 3D Tensor Library (TensorL3D)
 
 	Author: Aqwam Harish Aiman
@@ -1348,7 +1320,7 @@ function AqwamTensorLibrary3D:standardDeviation(tensor, dimension)
 	
 end
 
-function AqwamTensorLibrary3D:normalize(tensor, dimension) 
+function AqwamTensorLibrary3D:zScoreNormalize(tensor, dimension) 
 	
 	local meanTensor = AqwamTensorLibrary3D:mean(tensor, dimension)
 	
