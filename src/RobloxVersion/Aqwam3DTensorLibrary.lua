@@ -26,6 +26,34 @@
 
 --]]
 
+--[[
+
+	--------------------------------------------------------------------
+
+	Version 0.0.0
+
+	Aqwam's 3D Tensor Library (TensorL3D)
+
+	Author: Aqwam Harish Aiman
+	
+	YouTube: https://www.youtube.com/channel/UCUrwoxv5dufEmbGsxyEUPZw
+	
+	LinkedIn: https://www.linkedin.com/in/aqwam-harish-aiman/
+	
+	--------------------------------------------------------------------
+	
+	By using or possesing any copies of this library, you agree to our terms and conditions at:
+	
+	https://github.com/AqwamCreates/TensorL3D/blob/main/docs/TermsAndConditions.md
+	
+	--------------------------------------------------------------------
+	
+	DO NOT REMOVE THIS TEXT WITHOUT PERMISSION!
+	
+	--------------------------------------------------------------------
+
+--]]
+
 local AqwamTensorLibrary3D = {}
 
 local function create3DTensor(dimensionSizeArray, initialValue)
@@ -144,7 +172,6 @@ end
 local function checkIfCanBroadcast(tensor1, tensor2)
 	
 	tensor1 = convertValueTo3DTensor(tensor1)
-	
 	tensor2 = convertValueTo3DTensor(tensor2)
 
 	local tensor1Depth = #tensor1
@@ -1287,6 +1314,52 @@ function AqwamTensorLibrary3D:unaryMinus(tensor)
 
 	return result
 
+end
+
+function AqwamTensorLibrary3D:mean(tensor, dimension)
+	
+	local size = AqwamTensorLibrary3D:getSize(tensor)[dimension]
+	
+	local sumTensor = AqwamTensorLibrary3D:sum(tensor, dimension)
+	
+	local meanTensor = AqwamTensorLibrary3D:divide(tensor, size)
+	
+	return meanTensor
+	
+end
+
+function AqwamTensorLibrary3D:standardDeviation(tensor, dimension)
+	
+	local size = AqwamTensorLibrary3D:getSize(tensor)[dimension]
+	
+	local meanTensor = AqwamTensorLibrary3D:mean(tensor, dimension)
+	
+	local subtractedTensor = AqwamTensorLibrary3D:subtract(tensor, meanTensor)
+	
+	local squaredSubractedTensor = AqwamTensorLibrary3D:power(subtractedTensor, 2)
+	
+	local summedSquaredSubtractedTensor = AqwamTensorLibrary3D:sum(squaredSubractedTensor, dimension)
+	
+	local squaredStandardDeviationTensor = AqwamTensorLibrary3D:divide(summedSquaredSubtractedTensor, size)
+	
+	local standardDeviationTensor = AqwamTensorLibrary3D:power(squaredSubractedTensor, 0.5)
+	
+	return standardDeviationTensor
+	
+end
+
+function AqwamTensorLibrary3D:normalize(tensor, dimension) 
+	
+	local meanTensor = AqwamTensorLibrary3D:mean(tensor, dimension)
+	
+	local standardDeviationTensor = AqwamTensorLibrary3D:standardDeviation(tensor, dimension)
+	
+	local subtractedTensor = AqwamTensorLibrary3D:subtract(tensor, meanTensor)
+	
+	local normalizedTensor = AqwamTensorLibrary3D:divide(subtractedTensor, standardDeviationTensor)
+	
+	return normalizedTensor
+	
 end
 
 function AqwamTensorLibrary3D:extract(tensor, originDimensionIndexArray, targetDimensionIndexArray)
