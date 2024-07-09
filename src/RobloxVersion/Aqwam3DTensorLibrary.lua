@@ -28,6 +28,24 @@
 
 local AqwamTensorLibrary3D = {}
 
+local function checkDepth(array, depth)
+
+	depth = depth or 0
+
+	local valueType = typeof(array)
+
+	if (valueType == "table") then
+
+		return checkDepth(array[1], depth + 1)
+
+	else
+
+		return depth
+
+	end
+
+end
+
 local function create3DTensor(dimensionSizeArray, initialValue)
 
 	local result = {}
@@ -1434,85 +1452,19 @@ function AqwamTensorLibrary3D:extract(tensor, originDimensionIndexArray, targetD
 	
 end
 
-function flatten(tensor, originDimensionIndex, targetDimensionIndex)
-	
-	local res = {}
 
-	if originDimensionIndex == 1 and targetDimensionIndex == 1 then
+
+function AqwamTensorLibrary3D:flatten(tensor)
+	
+	local resultTensor = {}
+	
+	for i = 1, #tensor, 1 do
 		
-		for i = 1, #tensor do
+		for j = 1, #tensor[i], 1 do
 			
-			table.insert(flattened, tensor[i])
-			
-		end
-		
-	elseif originDimensionIndex == 1 and targetDimensionIndex == 2 then
-		
-		for i = 1, #tensor do
-			
-			for j = 1, #tensor[i] do
+			for k = 1, #tensor[i][j], 1 do
 				
-				table.insert(flattened, tensor[i][j])
-				
-			end
-			
-		end
-		
-	elseif originDimensionIndex == 1 and targetDimensionIndex == 3 then
-		
-		for i = 1, #tensor do
-			
-			for j = 1, #tensor[i] do
-				
-				for k = 1, #tensor[i][j] do
-					
-					table.insert(flattened, tensor[i][j][k])
-					
-				end
-				
-			end
-			
-		end
-		
-	elseif originDimensionIndex == 2 and targetDimensionIndex == 2 then
-		
-		for i = 1, #tensor do
-			
-			for j = 1, #tensor[i] do
-				
-				table.insert(flattened, tensor[i][j])
-				
-			end
-			
-		end
-		
-	elseif originDimensionIndex == 2 and targetDimensionIndex == 3 then
-		
-		for i = 1, #tensor do
-			
-			for j = 1, #tensor[i] do
-				
-				for k = 1, #tensor[i][j] do
-					
-					table.insert(flattened, tensor[i][j][k])
-					
-				end
-				
-			end
-			
-		end
-		
-	elseif originDimensionIndex == 3 and targetDimensionIndex == 3 then
-		
-		for i = 1, #tensor do
-			
-			for j = 1, #tensor[i] do
-				
-				for k = 1, #tensor[i][j] do
-					
-					table.insert(flattened, tensor[i][j][k])
-					
-				end
+				table.insert(resultTensor, tensor[i][j][k])
 				
 			end
 			
@@ -1520,7 +1472,41 @@ function flatten(tensor, originDimensionIndex, targetDimensionIndex)
 		
 	end
 
-	return flattened
+	return resultTensor
+	
+end
+
+function AqwamTensorLibrary3D:reshape(flattenedTensor, dimensionSizeArray)
+	
+	local dimensionSizeArray = AqwamTensorLibrary3D:getSize(flattenedTensor)
+	
+	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionSizeArray)
+	
+	local resultTensor = {}
+	
+	local index = 1
+
+	for i = 1, dimensionSizeArray[1] do
+		
+		resultTensor[i] = {}
+		
+		for j = 1, dimensionSizeArray[2] do
+			
+			resultTensor[i][j] = {}
+			
+			for k = 1, dimensionSizeArray[3] do
+				
+				resultTensor[i][j][k] = flattenedTensor[index]
+				
+				index = index + 1
+				
+			end
+			
+		end
+		
+	end
+
+	return resultTensor
 end
 
 return AqwamTensorLibrary3D
