@@ -4,7 +4,7 @@
 
 	Version 0.0.0
 
-	Aqwam's 3D Tensor Library (TensorL-3D)
+	Aqwam's 3D Tensor Library (TensorL3D)
 
 	Author: Aqwam Harish Aiman
 	
@@ -16,7 +16,7 @@
 	
 	By using or possesing any copies of this library, you agree to our terms and conditions at:
 	
-	https://github.com/AqwamCreates/TensorL-3D/blob/main/docs/TermsAndConditions.md
+	https://github.com/AqwamCreates/TensorL3D/blob/main/docs/TermsAndConditions.md
 	
 	--------------------------------------------------------------------
 	
@@ -264,8 +264,8 @@ end
 
 local function checkIfCanBroadcast(tensor1, tensor2)
 	
-	tensor1 = convertValueTo3DTensor(tensor1)
-	tensor2 = convertValueTo3DTensor(tensor2)
+	tensor1 = AqwamTensorLibrary3D:convertValueTo3DTensor(tensor1)
+	tensor2 = AqwamTensorLibrary3D:convertValueTo3DTensor(tensor2)
 
 	local tensor1Depth = #tensor1
 	local tensor2Depth = #tensor2
@@ -1426,19 +1426,19 @@ function AqwamTensorLibrary3D:extract(originDimensionIndexArray, targetDimension
 
 	end
 
-	local result = {}
+	local resultTensor = {}
 
 	for dimension1 = originDimensionIndexArray[1], targetDimensionIndexArray[1], 1 do
 
-		result[dimension1] = {}
+		resultTensor[dimension1] = {}
 
 		for dimension2 = originDimensionIndexArray[2], targetDimensionIndexArray[2], 1 do
 
-			result[dimension1][dimension2] = {}
+			resultTensor[dimension1][dimension2] = {}
 
 			for dimension3 = originDimensionIndexArray[3], targetDimensionIndexArray[3], 1 do
 
-				result[dimension1][dimension2][dimension3] = self[dimension1][dimension2][dimension3]
+				resultTensor[dimension1][dimension2][dimension3] = self[dimension1][dimension2][dimension3]
 
 			end
 
@@ -1446,7 +1446,7 @@ function AqwamTensorLibrary3D:extract(originDimensionIndexArray, targetDimension
 
 	end
 
-	return result
+	return resultTensor
 
 end
 
