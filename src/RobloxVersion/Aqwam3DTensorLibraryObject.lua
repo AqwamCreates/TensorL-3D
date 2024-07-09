@@ -1472,9 +1472,9 @@ function AqwamTensorLibrary3D:flatten()
 
 end
 
-function AqwamTensorLibrary3D:reshape(flattenedTensor, dimensionSizeArray)
+function AqwamTensorLibrary3D:reshape(dimensionSizeArray)
 
-	local dimensionSizeArray = AqwamTensorLibrary3D:getSize(flattenedTensor)
+	local dimensionSizeArray = AqwamTensorLibrary3D:getSize(self)
 
 	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionSizeArray)
 
@@ -1492,7 +1492,7 @@ function AqwamTensorLibrary3D:reshape(flattenedTensor, dimensionSizeArray)
 
 			for k = 1, dimensionSizeArray[3] do
 
-				result[i][j][k] = flattenedTensor[index]
+				result[i][j][k] = self[index]
 
 				index = index + 1
 
