@@ -2,7 +2,7 @@
 
 	--------------------------------------------------------------------
 
-	Version 0.1.0
+	Version 0.0.0
 
 	Aqwam's 3D Tensor Library (TensorL3D)
 
@@ -1452,11 +1452,9 @@ function AqwamTensorLibrary3D:extract(tensor, originDimensionIndexArray, targetD
 	
 end
 
-
-
 function AqwamTensorLibrary3D:flatten(tensor)
 	
-	local resultTensor = {}
+	local resultTensor = {{{}}}
 	
 	for i = 1, #tensor, 1 do
 		
@@ -1464,7 +1462,7 @@ function AqwamTensorLibrary3D:flatten(tensor)
 			
 			for k = 1, #tensor[i][j], 1 do
 				
-				table.insert(resultTensor, tensor[i][j][k])
+				table.insert(resultTensor[1][1], tensor[i][j][k])
 				
 			end
 			
@@ -1496,7 +1494,7 @@ function AqwamTensorLibrary3D:reshape(flattenedTensor, dimensionSizeArray)
 			
 			for k = 1, dimensionSizeArray[3] do
 				
-				resultTensor[i][j][k] = flattenedTensor[index]
+				resultTensor[i][j][k] = flattenedTensor[1][1][index]
 				
 				index = index + 1
 				
