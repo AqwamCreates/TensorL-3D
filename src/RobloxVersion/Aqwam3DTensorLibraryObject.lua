@@ -1474,8 +1474,6 @@ end
 
 function AqwamTensorLibrary3D:reshape(dimensionSizeArray)
 
-	local dimensionSizeArray = AqwamTensorLibrary3D:getSize(self)
-
 	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionSizeArray)
 
 	local result = {}
