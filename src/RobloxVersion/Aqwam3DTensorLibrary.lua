@@ -1324,9 +1324,9 @@ function AqwamTensorLibrary3D:mean(tensor, dimension)
 	
 	local meanTensor = AqwamTensorLibrary3D:divide(tensor, numberOfElements)
 	
-	local meanTensorSize = AqwamTensorLibrary3D:getSize(meanTensor)
+	local meanTensorSizeArray = AqwamTensorLibrary3D:getSize(meanTensor)
 
-	if (meanTensorSize[1] == 1) and (meanTensorSize[2] == 1) and (meanTensorSize[3] == 1) then return meanTensor[1][1][1] end
+	if (meanTensorSizeArray[1] == 1) and (meanTensorSizeArray[2] == 1) and (meanTensorSizeArray[3] == 1) then return meanTensor[1][1][1] end
 	
 	return meanTensor
 	
@@ -1358,9 +1358,9 @@ function AqwamTensorLibrary3D:standardDeviation(tensor, dimension)
 	
 	local standardDeviationTensor = AqwamTensorLibrary3D:power(squaredSubractedTensor, 0.5)
 	
-	local standardDeviationTensorSize = AqwamTensorLibrary3D:getSize(standardDeviationTensor)
+	local standardDeviationTensorSizeArray = AqwamTensorLibrary3D:getSize(standardDeviationTensor)
 	
-	if (standardDeviationTensorSize[1] == 1) and (standardDeviationTensorSize[2] == 1) and (standardDeviationTensorSize[3] == 1) then return standardDeviationTensor[1][1][1] end
+	if (standardDeviationTensorSizeArray[1] == 1) and (standardDeviationTensorSizeArray[2] == 1) and (standardDeviationTensorSizeArray[3] == 1) then return standardDeviationTensor[1][1][1] end
 	
 	return standardDeviationTensor
 	
