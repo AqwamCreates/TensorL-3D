@@ -1476,8 +1476,6 @@ end
 
 function AqwamTensorLibrary3D:reshape(flattenedTensor, dimensionSizeArray)
 	
-	local dimensionSizeArray = AqwamTensorLibrary3D:getSize(flattenedTensor)
-	
 	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionSizeArray)
 	
 	local resultTensor = {}
@@ -1503,6 +1501,8 @@ function AqwamTensorLibrary3D:reshape(flattenedTensor, dimensionSizeArray)
 		end
 		
 	end
+	
+	print(resultTensor)
 
 	return resultTensor
 	
