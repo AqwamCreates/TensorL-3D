@@ -1336,7 +1336,7 @@ function AqwamTensorLibrary3D:standardDeviation(tensor, dimension)
 	
 	local numberOfElements = 0
 
-	if (not dimension) then
+	if (dimension) then
 
 		numberOfElements = AqwamTensorLibrary3D:getSize(tensor)[dimension]
 
