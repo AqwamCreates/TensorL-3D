@@ -1426,19 +1426,19 @@ function AqwamTensorLibrary3D:extract(originDimensionIndexArray, targetDimension
 
 	end
 
-	local resultTensor = {}
+	local result = {}
 
 	for dimension1 = originDimensionIndexArray[1], targetDimensionIndexArray[1], 1 do
 
-		resultTensor[dimension1] = {}
+		result[dimension1] = {}
 
 		for dimension2 = originDimensionIndexArray[2], targetDimensionIndexArray[2], 1 do
 
-			resultTensor[dimension1][dimension2] = {}
+			result[dimension1][dimension2] = {}
 
 			for dimension3 = originDimensionIndexArray[3], targetDimensionIndexArray[3], 1 do
 
-				resultTensor[dimension1][dimension2][dimension3] = self[dimension1][dimension2][dimension3]
+				result[dimension1][dimension2][dimension3] = self[dimension1][dimension2][dimension3]
 
 			end
 
@@ -1446,7 +1446,63 @@ function AqwamTensorLibrary3D:extract(originDimensionIndexArray, targetDimension
 
 	end
 
-	return resultTensor
+	return self.new(result)
+
+end
+
+function AqwamTensorLibrary3D:flatten()
+
+	local result = {{{}}}
+
+	for i = 1, #self, 1 do
+
+		for j = 1, #self[i], 1 do
+
+			for k = 1, #self[i][j], 1 do
+
+				table.insert(result[1][1], self[i][j][k])
+
+			end
+
+		end
+
+	end
+
+	return self.new(result)
+
+end
+
+function AqwamTensorLibrary3D:reshape(flattenedTensor, dimensionSizeArray)
+
+	local dimensionSizeArray = AqwamTensorLibrary3D:getSize(flattenedTensor)
+
+	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionSizeArray)
+
+	local result = {}
+
+	local index = 1
+
+	for i = 1, dimensionSizeArray[1] do
+
+		result[i] = {}
+
+		for j = 1, dimensionSizeArray[2] do
+
+			result[i][j] = {}
+
+			for k = 1, dimensionSizeArray[3] do
+
+				result[i][j][k] = flattenedTensor[index]
+
+				index = index + 1
+
+			end
+
+		end
+
+	end
+
+	return self.new(result)
 
 end
 
