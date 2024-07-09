@@ -1507,6 +1507,7 @@ function AqwamTensorLibrary3D:reshape(flattenedTensor, dimensionSizeArray)
 	end
 
 	return resultTensor
+	
 end
 
 return AqwamTensorLibrary3D
