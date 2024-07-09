@@ -1310,14 +1310,16 @@ function AqwamTensorLibrary3D:mean(tensor, dimension)
 	
 	local numberOfElements = 0
 	
+	local tensorSizeArray = AqwamTensorLibrary3D:getSize(tensor)
+	
 	if (dimension) then
-		
-		numberOfElements = AqwamTensorLibrary3D:getSize(tensor)[dimension]
-		
+
+		numberOfElements = tensorSizeArray[dimension]
+
 	else
-		
-		for i, size in ipairs(AqwamTensorLibrary3D:getSize()) do numberOfElements += size end
-		
+
+		for i, size in ipairs(tensorSizeArray) do numberOfElements += size end
+
 	end
 	
 	local sumTensor = AqwamTensorLibrary3D:sum(tensor, dimension)
@@ -1335,14 +1337,16 @@ end
 function AqwamTensorLibrary3D:standardDeviation(tensor, dimension)
 	
 	local numberOfElements = 0
+	
+	local tensorSizeArray = AqwamTensorLibrary3D:getSize(tensor)
 
 	if (dimension) then
 
-		numberOfElements = AqwamTensorLibrary3D:getSize(tensor)[dimension]
+		numberOfElements = tensorSizeArray[dimension]
 
 	else
 		
-		for i, size in ipairs(AqwamTensorLibrary3D:getSize()) do numberOfElements += size end
+		for i, size in ipairs(tensorSizeArray) do numberOfElements += size end
 
 	end
 	
