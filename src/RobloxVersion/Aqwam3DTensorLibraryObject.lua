@@ -1492,7 +1492,7 @@ function AqwamTensorLibrary3D:reshape(dimensionSizeArray)
 
 			for k = 1, dimensionSizeArray[3] do
 
-				result[i][j][k] = self[index]
+				result[i][j][k] = self[1][1][index]
 
 				index = index + 1
 
