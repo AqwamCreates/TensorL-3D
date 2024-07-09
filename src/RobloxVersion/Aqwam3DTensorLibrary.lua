@@ -1330,7 +1330,7 @@ function AqwamTensorLibrary3D:zScoreNormalize(tensor, dimension)
 	
 	local normalizedTensor = AqwamTensorLibrary3D:divide(subtractedTensor, standardDeviationTensor)
 	
-	return normalizedTensor
+	return normalizedTensor, meanTensor, standardDeviationTensor
 	
 end
 
@@ -1410,19 +1410,19 @@ function AqwamTensorLibrary3D:extract(tensor, originDimensionIndexArray, targetD
 		
 	end
 	
-	local result = {}
+	local resultTensor = {}
 
 	for dimension1 = originDimensionIndexArray[1], targetDimensionIndexArray[1], 1 do
 
-		result[dimension1] = {}
+		resultTensor[dimension1] = {}
 
 		for dimension2 = originDimensionIndexArray[2], targetDimensionIndexArray[2], 1 do
 
-			result[dimension1][dimension2] = {}
+			resultTensor[dimension1][dimension2] = {}
 
 			for dimension3 = originDimensionIndexArray[3], targetDimensionIndexArray[3], 1 do
 
-				result[dimension1][dimension2][dimension3] = tensor[dimension1][dimension2][dimension3]
+				resultTensor[dimension1][dimension2][dimension3] = tensor[dimension1][dimension2][dimension3]
 
 			end
 
@@ -1430,8 +1430,97 @@ function AqwamTensorLibrary3D:extract(tensor, originDimensionIndexArray, targetD
 
 	end
 	
-	return result
+	return resultTensor
 	
+end
+
+function flatten(tensor, originDimensionIndex, targetDimensionIndex)
+	
+	local res = {}
+
+	if originDimensionIndex == 1 and targetDimensionIndex == 1 then
+		
+		for i = 1, #tensor do
+			
+			table.insert(flattened, tensor[i])
+			
+		end
+		
+	elseif originDimensionIndex == 1 and targetDimensionIndex == 2 then
+		
+		for i = 1, #tensor do
+			
+			for j = 1, #tensor[i] do
+				
+				table.insert(flattened, tensor[i][j])
+				
+			end
+			
+		end
+		
+	elseif originDimensionIndex == 1 and targetDimensionIndex == 3 then
+		
+		for i = 1, #tensor do
+			
+			for j = 1, #tensor[i] do
+				
+				for k = 1, #tensor[i][j] do
+					
+					table.insert(flattened, tensor[i][j][k])
+					
+				end
+				
+			end
+			
+		end
+		
+	elseif originDimensionIndex == 2 and targetDimensionIndex == 2 then
+		
+		for i = 1, #tensor do
+			
+			for j = 1, #tensor[i] do
+				
+				table.insert(flattened, tensor[i][j])
+				
+			end
+			
+		end
+		
+	elseif originDimensionIndex == 2 and targetDimensionIndex == 3 then
+		
+		for i = 1, #tensor do
+			
+			for j = 1, #tensor[i] do
+				
+				for k = 1, #tensor[i][j] do
+					
+					table.insert(flattened, tensor[i][j][k])
+					
+				end
+				
+			end
+			
+		end
+		
+	elseif originDimensionIndex == 3 and targetDimensionIndex == 3 then
+		
+		for i = 1, #tensor do
+			
+			for j = 1, #tensor[i] do
+				
+				for k = 1, #tensor[i][j] do
+					
+					table.insert(flattened, tensor[i][j][k])
+					
+				end
+				
+			end
+			
+		end
+		
+	end
+
+	return flattened
 end
 
 return AqwamTensorLibrary3D
