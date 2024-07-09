@@ -1318,7 +1318,7 @@ function AqwamTensorLibrary3D:mean(tensor, dimension)
 
 	else
 
-		for i, size in ipairs(tensorSizeArray) do numberOfElements += size end
+		for _, size in ipairs(tensorSizeArray) do numberOfElements += size end
 
 	end
 	
@@ -1346,7 +1346,7 @@ function AqwamTensorLibrary3D:standardDeviation(tensor, dimension)
 
 	else
 		
-		for i, size in ipairs(tensorSizeArray) do numberOfElements += size end
+		for _, size in ipairs(tensorSizeArray) do numberOfElements += size end
 
 	end
 	
