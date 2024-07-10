@@ -1474,7 +1474,6 @@ function AqwamTensorLibrary3D:extract(tensor, originDimensionIndexArray, targetD
 	
 	local resultTensorSizeArray = {}
 
-	
 	for i, dimensionSize in ipairs(targetDimensionIndexArray) do
 		
 		resultTensorSizeArray[i] = targetDimensionIndexArray[i] - originDimensionIndexArray[i]
