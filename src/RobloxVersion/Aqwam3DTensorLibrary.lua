@@ -512,7 +512,7 @@ function AqwamTensorLibrary3D:sum(tensor, dimension)
 		end	
 
 	end
-
+	
 	return result
 
 end
@@ -1328,7 +1328,7 @@ function AqwamTensorLibrary3D:mean(tensor, dimension)
 	
 	local sumTensor = AqwamTensorLibrary3D:sum(tensor, dimension)
 	
-	local meanTensor = AqwamTensorLibrary3D:divide(tensor, numberOfElements)
+	local meanTensor = AqwamTensorLibrary3D:divide(sumTensor, numberOfElements)
 	
 	local meanTensorSizeArray = AqwamTensorLibrary3D:getSize(meanTensor)
 
