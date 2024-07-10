@@ -1408,7 +1408,7 @@ function AqwamTensorLibrary3D:extract(tensor, originDimensionIndexArray, targetD
 	
 	local outOfBoundsTargetIndexArray = getOutOfBoundsIndexArray(dimensionSizeArray, targetDimensionIndexArray)
 	
-	local falseBooleanIndexArray = getFalseBooleanIndexArray(function(a, b) return (a < b) end, originDimensionIndexArray, targetDimensionIndexArray)
+	local falseBooleanIndexArray = getFalseBooleanIndexArray(function(a, b) return (a <= b) end, originDimensionIndexArray, targetDimensionIndexArray)
 	
 	local outOfBoundsOriginIndexArraySize = #outOfBoundsOriginIndexArray
 	
@@ -1418,17 +1418,17 @@ function AqwamTensorLibrary3D:extract(tensor, originDimensionIndexArray, targetD
 	
 	if (outOfBoundsOriginIndexArraySize > 0) then
 		
-		local errorString = "Attempting to set an origin dimension index that is out of bounds for dimension at "
+		local errorString = "Attempting to set an origin dimension index that is out of bounds for dimension at ("
 		
 		for i, index in ipairs(originDimensionIndexArray) do
 
 			errorString = errorString .. index
 			
-			if (i < outOfBoundsOriginIndexArraySize) then errorString = errorString .. ", " end
+			if (i < numberOfDimensions) then errorString = errorString .. ", " end
 
 		end
 		
-		errorString = errorString .. "."
+		errorString = errorString .. ")."
 		
 		error(errorString)
 		
@@ -1436,17 +1436,17 @@ function AqwamTensorLibrary3D:extract(tensor, originDimensionIndexArray, targetD
 	
 	if (outOfBoundsTargetIndexArraySize > 0) then
 
-		local errorString = "Attempting to set an target dimension index that is out of bounds for dimension at "
+		local errorString = "Attempting to set an target dimension index that is out of bounds for dimension at ("
 
 		for i, index in ipairs(originDimensionIndexArray) do
 
 			errorString = errorString .. index
 
-			if (i < outOfBoundsTargetIndexArraySize) then errorString = errorString .. ", " end
+			if (i < numberOfDimensions) then print(true) errorString = errorString .. ", " end
 
 		end
 
-		errorString = errorString .. "."
+		errorString = errorString .. ")."
 		
 		error(errorString)
 
@@ -1454,7 +1454,7 @@ function AqwamTensorLibrary3D:extract(tensor, originDimensionIndexArray, targetD
 	
 	if (falseBooleanIndexArraySize > 0) then
 		
-		local errorString = "The origin dimension index is larger than the target dimension index for dimensions at "
+		local errorString = "The origin dimension index is larger than the target dimension index for dimensions at ("
 		
 		for i, index in ipairs(originDimensionIndexArray) do
 
@@ -1464,7 +1464,7 @@ function AqwamTensorLibrary3D:extract(tensor, originDimensionIndexArray, targetD
 
 		end
 
-		errorString = errorString .. "."
+		errorString = errorString .. ")."
 
 		error(errorString)
 		
