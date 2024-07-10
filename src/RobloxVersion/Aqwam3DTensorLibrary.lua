@@ -1442,7 +1442,7 @@ function AqwamTensorLibrary3D:extract(tensor, originDimensionIndexArray, targetD
 
 			errorString = errorString .. index
 
-			if (i < numberOfDimensions) then print(true) errorString = errorString .. ", " end
+			if (i < numberOfDimensions) then errorString = errorString .. ", " end
 
 		end
 
