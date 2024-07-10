@@ -1426,23 +1426,35 @@ function AqwamTensorLibrary3D:extract(originDimensionIndexArray, targetDimension
 
 	end
 
-	local result = {}
+	local resultTensor = {}
+
+	local dimension1Index = 1
 
 	for dimension1 = originDimensionIndexArray[1], targetDimensionIndexArray[1], 1 do
 
-		result[dimension1] = {}
+		resultTensor[dimension1Index] = {}
+
+		local dimension2Index = 1
 
 		for dimension2 = originDimensionIndexArray[2], targetDimensionIndexArray[2], 1 do
 
-			result[dimension1][dimension2] = {}
+			resultTensor[dimension1Index][dimension2Index] = {}
+
+			local dimension3Index = 1
 
 			for dimension3 = originDimensionIndexArray[3], targetDimensionIndexArray[3], 1 do
 
-				result[dimension1][dimension2][dimension3] = self[dimension1][dimension2][dimension3]
+				resultTensor[dimension1Index][dimension2Index][dimension3Index] = self[dimension1][dimension2][dimension3]
+
+				dimension3Index += 1
 
 			end
 
+			dimension2Index += 1
+
 		end
+
+		dimension1Index += 1
 
 	end
 
