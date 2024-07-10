@@ -1444,7 +1444,7 @@ function AqwamTensorLibrary3D:extract(originDimensionIndexArray, targetDimension
 
 			for dimension3 = originDimensionIndexArray[3], targetDimensionIndexArray[3], 1 do
 
-				result[dimension1Index][dimension2Index][dimension3Index] = tensor[dimension1][dimension2][dimension3]
+				result[dimension1Index][dimension2Index][dimension3Index] = self[dimension1][dimension2][dimension3]
 
 				dimension3Index = dimension3Index + 1
 
