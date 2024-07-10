@@ -1490,15 +1490,15 @@ function AqwamTensorLibrary3D:extract(tensor, originDimensionIndexArray, targetD
 
 				resultTensor[dimension1Index][dimension2Index][dimension3Index] = tensor[dimension1][dimension2][dimension3]
 				
-				dimension3Index += 1
+				dimension3Index = dimension3Index + 1
 
 			end
 			
-			dimension2Index += 1
+			dimension2Index = dimension2Index + 1
 
 		end
 		
-		dimension1Index += 1
+		dimension1Index = dimension1Index + 1
 
 	end
 	
