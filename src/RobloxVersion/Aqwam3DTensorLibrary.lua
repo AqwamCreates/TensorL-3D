@@ -1279,6 +1279,8 @@ function AqwamTensorLibrary3D:power(...)
 end
 
 function AqwamTensorLibrary3D:unaryMinus(tensor)
+	
+	throwErrorIfValueIsNot3DTensor(tensor)
 
 	local result = {}
 
@@ -1308,6 +1310,8 @@ end
 
 function AqwamTensorLibrary3D:mean(tensor, dimension)
 	
+	throwErrorIfValueIsNot3DTensor(tensor)
+	
 	local numberOfElements = 0
 	
 	local tensorSizeArray = AqwamTensorLibrary3D:getSize(tensor)
@@ -1335,6 +1339,8 @@ function AqwamTensorLibrary3D:mean(tensor, dimension)
 end
 
 function AqwamTensorLibrary3D:standardDeviation(tensor, dimension)
+	
+	throwErrorIfValueIsNot3DTensor(tensor)
 	
 	local numberOfElements = 0
 	
@@ -1372,6 +1378,8 @@ end
 
 function AqwamTensorLibrary3D:zScoreNormalize(tensor, dimension) 
 	
+	throwErrorIfValueIsNot3DTensor(tensor)
+	
 	local meanTensor = AqwamTensorLibrary3D:mean(tensor, dimension)
 	
 	local standardDeviationTensor = AqwamTensorLibrary3D:standardDeviation(tensor, dimension)
@@ -1385,6 +1393,8 @@ function AqwamTensorLibrary3D:zScoreNormalize(tensor, dimension)
 end
 
 function AqwamTensorLibrary3D:extract(tensor, originDimensionIndexArray, targetDimensionIndexArray)
+	
+	throwErrorIfValueIsNot3DTensor(tensor)
 	
 	local dimensionSizeArray = AqwamTensorLibrary3D:getSize(tensor)
 	
@@ -1486,6 +1496,8 @@ end
 
 function AqwamTensorLibrary3D:flatten(tensor)
 	
+	throwErrorIfValueIsNot3DTensor(tensor)
+	
 	local resultTensor = {{{}}}
 	
 	for i = 1, #tensor, 1 do
@@ -1507,6 +1519,8 @@ function AqwamTensorLibrary3D:flatten(tensor)
 end
 
 function AqwamTensorLibrary3D:reshape(flattenedTensor, dimensionSizeArray)
+	
+	throwErrorIfValueIsNot3DTensor(flattenedTensor)
 	
 	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionSizeArray)
 	
@@ -1536,6 +1550,76 @@ function AqwamTensorLibrary3D:reshape(flattenedTensor, dimensionSizeArray)
 
 	return resultTensor
 	
+end
+
+function AqwamTensorLibrary3D:findMaximumValue(tensor)
+	
+	throwErrorIfValueIsNot3DTensor(tensor)
+	
+	local maximumValue = -math.huge
+	
+	local dimensionSizeArray = AqwamTensorLibrary3D:getSize(tensor)
+	
+	local dimensionIndexArray
+	
+	for i = 1, dimensionSizeArray[1] do
+
+		for j = 1, dimensionSizeArray[2] do
+
+			for k = 1, dimensionSizeArray[3] do
+				
+				local value = tensor[i][j][k]
+				
+				if (value > maximumValue) then
+					
+					maximumValue = value
+					
+					dimensionIndexArray = {i, j, k}
+					
+				end
+			end
+
+		end
+
+	end
+	
+	return maximumValue, dimensionIndexArray
+	
+end
+
+function AqwamTensorLibrary3D:findMinimumValue(tensor)
+
+	throwErrorIfValueIsNot3DTensor(tensor)
+
+	local minimumValue = math.huge
+
+	local dimensionSizeArray = AqwamTensorLibrary3D:getSize(tensor)
+
+	local dimensionIndexArray
+
+	for i = 1, dimensionSizeArray[1] do
+
+		for j = 1, dimensionSizeArray[2] do
+
+			for k = 1, dimensionSizeArray[3] do
+
+				local value = tensor[i][j][k]
+
+				if (value < minimumValue) then
+
+					minimumValue = value
+
+					dimensionIndexArray = {i, j, k}
+
+				end
+			end
+
+		end
+
+	end
+
+	return minimumValue, dimensionIndexArray
+
 end
 
 return AqwamTensorLibrary3D
