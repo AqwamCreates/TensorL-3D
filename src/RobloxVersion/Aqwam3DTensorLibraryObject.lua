@@ -518,7 +518,7 @@ local function is3DTensor(tensor)
 
 		local value = tensor[1][1][1] 
 
-		if (type(value) ~= "number") then error() end
+		if (type(value) == "table") then error() end
 
 	end)
 
