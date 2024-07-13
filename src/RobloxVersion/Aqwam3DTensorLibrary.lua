@@ -2,7 +2,7 @@
 
 	--------------------------------------------------------------------
 
-	Version 0.0.0
+	Version 0.2.0
 
 	Aqwam's 3D Tensor Library (TensorL3D)
 
@@ -142,7 +142,13 @@ end
 
 local function is3DTensor(tensor)
 
-	local isTensor = pcall(function() local _ = tensor[1][1][1] end)
+	local isTensor = pcall(function() 
+		
+		local value = tensor[1][1][1] 
+		
+		if (type(value) ~= "number") then error() end
+		
+	end)
 
 	return isTensor
 
