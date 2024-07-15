@@ -1476,31 +1476,35 @@ function AqwamTensorLibrary3D:extract(tensor, originDimensionIndexArray, targetD
 		
 	end
 	
+	local resultTensorDimension1 = 1
+	
 	local resultTensor = {}
 	
-	local resultTensorSizeArray = {}
-
-	for i, dimensionSize in ipairs(targetDimensionIndexArray) do
+	for dimension1 = originDimensionIndexArray[1], targetDimensionIndexArray[1], 1 do
 		
-		resultTensorSizeArray[i] = targetDimensionIndexArray[i] - originDimensionIndexArray[i]
+		local resultTensorDimension2 = 1
 		
-	end
-	
-	for dimension1 = 1, resultTensorSizeArray[1], 1 do
+		resultTensor[resultTensorDimension1] = {}
+		
+		for dimension2 = originDimensionIndexArray[2], targetDimensionIndexArray[2], 1 do
+			
+			local resultTensorDimension3 = 1
+			
+			resultTensor[resultTensorDimension1][resultTensorDimension2] = {}
 
-		resultTensor[dimension1] = {}
-
-		for dimension2 = 1, resultTensorSizeArray[2], 1 do
-
-			resultTensor[dimension1][dimension2] = {}
-
-			for dimension3 = 1, resultTensorSizeArray[3], 1 do
-
-				resultTensor[dimension1][dimension2][dimension3] = tensor[originDimensionIndexArray[1] + dimension1][originDimensionIndexArray[2] + dimension2][originDimensionIndexArray[3] + dimension3]
+			for dimension3 = originDimensionIndexArray[3], targetDimensionIndexArray[3], 1 do
+				
+				resultTensor[resultTensorDimension1][resultTensorDimension2][resultTensorDimension3] = tensor[dimension1][dimension2][dimension3]
+				
+				resultTensorDimension3 = resultTensorDimension3 + 1
 
 			end
+			
+			resultTensorDimension2 = resultTensorDimension2 + 1
 
 		end
+		
+		resultTensorDimension1 = resultTensorDimension1 + 1 
 
 	end
 	
