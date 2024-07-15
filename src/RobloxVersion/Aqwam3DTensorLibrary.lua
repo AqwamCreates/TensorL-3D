@@ -1032,7 +1032,7 @@ function AqwamTensorLibrary3D:concatenate(tensor1, tensor2, dimension)
 
 	end
 
-	local newTensor = AqwamTensorLibrary3D:create(newDimensionArray, true)
+	local newTensor = AqwamTensorLibrary3D:createTensor(newDimensionArray, true)
 
 	for i = 1, dimensionSizeArray1[1], 1 do
 
