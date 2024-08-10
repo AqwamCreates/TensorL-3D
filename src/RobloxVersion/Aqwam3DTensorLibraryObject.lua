@@ -492,7 +492,7 @@ local function expandTensor(tensor, targetDimensionArray)
 
 end
 
-function AqwamTensorLibrary3D:broadcastATensorIfDifferentSize(tensor1, tensor2)
+function AqwamTensorLibrary3D:broadcast(tensor1, tensor2)
 
 	local isTensor1Broadcasted, isTensor2Broadcasted = checkIfCanBroadcast(tensor1, tensor2)
 
@@ -1139,7 +1139,7 @@ function AqwamTensorLibrary3D:__add(other)
 
 	throwErrorIfOtherValueIsNot3DTensor(other)
 
-	local newSelf, newOther = AqwamTensorLibrary3D:broadcastATensorIfDifferentSize(self, other)
+	local newSelf, newOther = AqwamTensorLibrary3D:broadcast(self, other)
 
 	local functionToApply = function(a, b) return (a + b) end
 
@@ -1155,7 +1155,7 @@ function AqwamTensorLibrary3D:__sub(other)
 
 	throwErrorIfOtherValueIsNot3DTensor(other)
 
-	local newSelf, newOther = AqwamTensorLibrary3D:broadcastATensorIfDifferentSize(self, other)
+	local newSelf, newOther = AqwamTensorLibrary3D:broadcast(self, other)
 
 	local functionToApply = function(a, b) return (a - b) end
 
@@ -1171,7 +1171,7 @@ function AqwamTensorLibrary3D:__mul(other)
 
 	throwErrorIfOtherValueIsNot3DTensor(other)
 
-	local newSelf, newOther = AqwamTensorLibrary3D:broadcastATensorIfDifferentSize(self, other)
+	local newSelf, newOther = AqwamTensorLibrary3D:broadcast(self, other)
 
 	local functionToApply = function(a, b) return (a * b) end
 
@@ -1187,7 +1187,7 @@ function AqwamTensorLibrary3D:__div(other)
 
 	throwErrorIfOtherValueIsNot3DTensor(other)
 
-	local newSelf, newOther = AqwamTensorLibrary3D:broadcastATensorIfDifferentSize(self, other)
+	local newSelf, newOther = AqwamTensorLibrary3D:broadcast(self, other)
 
 	local functionToApply = function(a, b) return (a / b) end
 
@@ -1235,7 +1235,7 @@ function AqwamTensorLibrary3D:logarithm(other)
 
 		throwErrorIfOtherValueIsNot3DTensor(other)
 
-		local newSelf, newOther = AqwamTensorLibrary3D:broadcastATensorIfDifferentSize(self, other)
+		local newSelf, newOther = AqwamTensorLibrary3D:broadcast(self, other)
 
 		result = applyFunctionUsingTwoTensors(math.log, newSelf, newOther)
 
