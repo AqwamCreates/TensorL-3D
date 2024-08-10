@@ -168,7 +168,7 @@ local function applyFunctionUsingOneTensor(functionToApply, tensor)
 
 end
 
-local function getSize(tensor)
+local function getDimensionSizeArray(tensor)
 
 	return {#tensor, #tensor[1], #tensor[1][1]}
 
@@ -176,7 +176,7 @@ end
 
 local function sum(tensor, dimension)
 
-	local dimensionSizeArray = getSize(tensor)
+	local dimensionSizeArray = getDimensionSizeArray(tensor)
 
 	local newDimensionArray = deepCopyTable(dimensionSizeArray)
 
@@ -498,13 +498,13 @@ function AqwamTensorLibrary3D:broadcastATensorIfDifferentSize(tensor1, tensor2)
 
 	if (isTensor1Broadcasted) then
 
-		local targetDimensionArray = getSize(tensor2)
+		local targetDimensionArray = getDimensionSizeArray(tensor2)
 
 		tensor1 = expandTensor(tensor1, targetDimensionArray)
 
 	elseif (isTensor2Broadcasted) then
 
-		local targetDimensionArray = getSize(tensor1)
+		local targetDimensionArray = getDimensionSizeArray(tensor1)
 
 		tensor2 = expandTensor(tensor2, targetDimensionArray)
 
@@ -728,9 +728,9 @@ function AqwamTensorLibrary3D:expand(dimensionSizeArray)
 
 end
 
-function AqwamTensorLibrary3D:getSize()
+function AqwamTensorLibrary3D:getDimensionSizeArray()
 
-	return getSize(self.Values)
+	return getDimensionSizeArray(self.Values)
 
 end
 
@@ -756,7 +756,7 @@ function AqwamTensorLibrary3D:transpose(dimensionIndexArray)
 
 	end
 
-	local newDimensionArray = self:getSize()
+	local newDimensionArray = self:getDimensionSizeArray()
 
 	newDimensionArray[dimension1], newDimensionArray[dimension2] = newDimensionArray[dimension2], newDimensionArray[dimension1]
 
@@ -914,9 +914,9 @@ function AqwamTensorLibrary3D:concatenate(other, dimension)
 
 	throwErrorIfOtherValueIsNot3DTensor(other)
 
-	local dimensionSizeArray1 = self:getSize()
+	local dimensionSizeArray1 = self:getDimensionSizeArray()
 
-	local dimensionSizeArray2 = other:getSize()
+	local dimensionSizeArray2 = other:getDimensionSizeArray()
 
 	local newDimensionArray = {}
 
@@ -1025,9 +1025,9 @@ function AqwamTensorLibrary3D:dotProduct(other) -- Refer to this article. It was
 
 	throwErrorIfOtherValueIsNot3DTensor(other)
 
-	local dimensionSizeArray1 = self:getSize()
+	local dimensionSizeArray1 = self:getDimensionSizeArray()
 
-	local dimensionSizeArray2 = other:getSize()
+	local dimensionSizeArray2 = other:getDimensionSizeArray()
 
 	if (dimensionSizeArray1[1] ~= dimensionSizeArray2[1]) then error("The tensors do not contain equal dimension values at dimension 1.") end
 
@@ -1095,7 +1095,7 @@ function AqwamTensorLibrary3D:applyFunction(functionToApply, ...)
 
 	local tensorsArray = {...}
 
-	local dimensionSizeArray = self:getSize()
+	local dimensionSizeArray = self:getDimensionSizeArray()
 
 	local result = self.create(dimensionSizeArray)
 
@@ -1201,7 +1201,7 @@ function AqwamTensorLibrary3D:__unm()
 
 	local result = {}
 
-	local dimensionSizeArray = self:getSize()
+	local dimensionSizeArray = self:getDimensionSizeArray()
 
 	for dimension1 = 1, dimensionSizeArray[1], 1 do
 
@@ -1360,7 +1360,7 @@ end
 
 function AqwamTensorLibrary3D:extract(originDimensionIndexArray, targetDimensionIndexArray)
 
-	local dimensionSizeArray = getSize(self)
+	local dimensionSizeArray = getDimensionSizeArray(self)
 
 	local numberOfDimensions = #dimensionSizeArray
 
