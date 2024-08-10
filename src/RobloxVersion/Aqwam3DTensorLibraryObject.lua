@@ -566,7 +566,7 @@ function AqwamTensorLibrary3D.new(value)
 
 	local self = setmetatable({}, AqwamTensorLibrary3D)
 
-	self.Values = value
+	self.tensor = value
 
 	return self
 
@@ -580,7 +580,7 @@ function AqwamTensorLibrary3D.createTensor(dimensionSizeArray, initialValue)
 
 	local self = setmetatable({}, AqwamTensorLibrary3D)
 
-	self.Values = create3DTensor(dimensionSizeArray, initialValue)
+	self.tensor = create3DTensor(dimensionSizeArray, initialValue)
 
 	return self
 
@@ -594,7 +594,7 @@ function AqwamTensorLibrary3D.createTensorFromFunction(dimensionSizeArray, funct
 
 	local self = setmetatable({}, AqwamTensorLibrary3D)
 
-	self.Values = create3DTensorFromFunction(dimensionSizeArray, functionToUse)
+	self.tensor = create3DTensorFromFunction(dimensionSizeArray, functionToUse)
 
 	return self
 
@@ -628,7 +628,7 @@ function AqwamTensorLibrary3D.createIdentityTensor(dimensionSizeArray)
 
 	end
 
-	self.Values = newTensor
+	self.tensor = newTensor
 
 	return self
 
@@ -660,7 +660,7 @@ function AqwamTensorLibrary3D.createRandomUniformTensor(dimensionSizeArray)
 
 	end
 
-	self.Values = newTensor
+	self.tensor = newTensor
 
 	return self
 
@@ -702,7 +702,7 @@ function AqwamTensorLibrary3D.createRandomNormalTensor(dimensionSizeArray, mean,
 
 	end
 
-	self.Values = newTensor
+	self.tensor = newTensor
 
 	return self
 
@@ -730,7 +730,7 @@ end
 
 function AqwamTensorLibrary3D:getDimensionSizeArray()
 
-	return getDimensionSizeArray(self.Values)
+	return getDimensionSizeArray(self.tensor)
 
 end
 
@@ -1085,7 +1085,7 @@ end
 
 function AqwamTensorLibrary3D:rawCopy()
 
-	return deepCopyTable(self.Values)
+	return deepCopyTable(self.tensor)
 
 end
 
@@ -1328,13 +1328,13 @@ end
 
 function AqwamTensorLibrary3D:__tostring()
 
-	return self:generateTensorString(self.Values)
+	return self:generateTensorString(self.tensor)
 
 end
 
 function AqwamTensorLibrary3D:__len()
 
-	return #self.Values
+	return #self.tensor
 
 end
 
@@ -1342,7 +1342,7 @@ function AqwamTensorLibrary3D:__index(index)
 
 	if (type(index) == "number") then
 
-		return rawget(self.Values, index)
+		return rawget(self.tensor, index)
 
 	else
 
