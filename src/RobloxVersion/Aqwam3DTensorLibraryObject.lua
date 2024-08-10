@@ -4,7 +4,7 @@
 
 	Version 0.2.0
 
-	Aqwam's 3D Tensor Library (TensorL3D)
+	Aqwam's 3D Tensor Library (TensorL-3D)
 
 	Author: Aqwam Harish Aiman
 	
