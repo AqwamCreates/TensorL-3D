@@ -606,21 +606,21 @@ function AqwamTensorLibrary3D.createIdentityTensor(dimensionSizeArray)
 
 	local self = setmetatable({}, AqwamTensorLibrary3D)
 
-	local newTensor = {}
+	local tensor = {}
 
 	for i = 1, dimensionSizeArray[1], 1 do
 
-		newTensor[i] = {}
+		tensor[i] = {}
 
 		for j = 1, dimensionSizeArray[2], 1 do
 
-			newTensor[i][j] = {}
+			tensor[i][j] = {}
 
 			for k = 1, dimensionSizeArray[3], 1 do
 
 				local areEqual = (i == j) and (j == k)
 
-				newTensor[i][j][k] = (areEqual and 1) or 0
+				tensor[i][j][k] = (areEqual and 1) or 0
 
 			end
 
@@ -628,7 +628,7 @@ function AqwamTensorLibrary3D.createIdentityTensor(dimensionSizeArray)
 
 	end
 
-	self.tensor = newTensor
+	self.tensor = tensor
 
 	return self
 
@@ -640,19 +640,19 @@ function AqwamTensorLibrary3D.createRandomUniformTensor(dimensionSizeArray)
 
 	local self = setmetatable({}, AqwamTensorLibrary3D)
 
-	local newTensor = {}
+	local tensor = {}
 
 	for i = 1, dimensionSizeArray[1], 1 do
 
-		newTensor[i] = {}
+		tensor[i] = {}
 
 		for j = 1, dimensionSizeArray[2], 1 do
 
-			newTensor[i][j] = {}
+			tensor[i][j] = {}
 
 			for k = 1, dimensionSizeArray[3], 1 do
 
-				newTensor[i][j][k] = math.random()
+				tensor[i][j][k] = math.random()
 
 			end
 
@@ -660,7 +660,7 @@ function AqwamTensorLibrary3D.createRandomUniformTensor(dimensionSizeArray)
 
 	end
 
-	self.tensor = newTensor
+	self.tensor = tensor
 
 	return self
 
@@ -676,15 +676,15 @@ function AqwamTensorLibrary3D.createRandomNormalTensor(dimensionSizeArray, mean,
 
 	standardDeviation = standardDeviation or 1
 
-	local newTensor = {}
+	local tensor = {}
 
 	for i = 1, dimensionSizeArray[1], 1 do
 
-		newTensor[i] = {}
+		tensor[i] = {}
 
 		for j = 1, dimensionSizeArray[2], 1 do
 
-			newTensor[i][j] = {}
+			tensor[i][j] = {}
 
 			for k = 1, dimensionSizeArray[3], 1 do
 
@@ -694,7 +694,7 @@ function AqwamTensorLibrary3D.createRandomNormalTensor(dimensionSizeArray, mean,
 
 				local zScore = math.sqrt(-2 * math.log(randomNumber1)) * math.cos(2 * math.pi * randomNumber2) -- Box–Muller transform formula.
 
-				newTensor[i][j][k] = (zScore * standardDeviation) + mean
+				tensor[i][j][k] = (zScore * standardDeviation) + mean
 
 			end
 
@@ -702,7 +702,7 @@ function AqwamTensorLibrary3D.createRandomNormalTensor(dimensionSizeArray, mean,
 
 	end
 
-	self.tensor = newTensor
+	self.tensor = tensor
 
 	return self
 
@@ -722,9 +722,9 @@ function AqwamTensorLibrary3D:expand(dimensionSizeArray)
 
 	throwErrorIfDimensionArrayLengthIsNotEqualToThree(dimensionSizeArray)
 
-	local newTensor = expandTensor(self, dimensionSizeArray)
+	local tensor = expandTensor(self, dimensionSizeArray)
 
-	return self.new(newTensor)
+	return self.new(tensor)
 
 end
 
@@ -760,7 +760,7 @@ function AqwamTensorLibrary3D:transpose(dimensionIndexArray)
 
 	newDimensionArray[dimension1], newDimensionArray[dimension2] = newDimensionArray[dimension2], newDimensionArray[dimension1]
 
-	local newTensor = self.createTensor(newDimensionArray, true)
+	local tensor = self.createTensor(newDimensionArray, true)
 
 	if (table.find(dimensionIndexArray, 1)) and (table.find(dimensionIndexArray, 2)) then
 
@@ -770,7 +770,7 @@ function AqwamTensorLibrary3D:transpose(dimensionIndexArray)
 
 				for k = 1, newDimensionArray[3], 1 do
 
-					newTensor[i][j][k] = self[j][i][k]
+					tensor[i][j][k] = self[j][i][k]
 
 				end
 
@@ -786,7 +786,7 @@ function AqwamTensorLibrary3D:transpose(dimensionIndexArray)
 
 				for k = 1, newDimensionArray[3], 1 do
 
-					newTensor[i][j][k] = self[k][j][i]
+					tensor[i][j][k] = self[k][j][i]
 
 				end
 
@@ -802,7 +802,7 @@ function AqwamTensorLibrary3D:transpose(dimensionIndexArray)
 
 				for k = 1, newDimensionArray[3],1 do
 
-					newTensor[i][j][k] = self[i][k][j]
+					tensor[i][j][k] = self[i][k][j]
 
 				end
 
@@ -812,7 +812,7 @@ function AqwamTensorLibrary3D:transpose(dimensionIndexArray)
 
 	end
 
-	return newTensor
+	return tensor
 
 end
 
@@ -942,7 +942,7 @@ function AqwamTensorLibrary3D:concatenate(other, dimension)
 
 	end
 
-	local newTensor = create3DTensor(newDimensionArray, true)
+	local tensor = create3DTensor(newDimensionArray, true)
 
 	for i = 1, dimensionSizeArray1[1], 1 do
 
@@ -950,7 +950,7 @@ function AqwamTensorLibrary3D:concatenate(other, dimension)
 
 			for k = 1, dimensionSizeArray1[3],1 do
 
-				newTensor[i][j][k] = self[i][j][k]
+				tensor[i][j][k] = self[i][j][k]
 
 			end
 
@@ -968,7 +968,7 @@ function AqwamTensorLibrary3D:concatenate(other, dimension)
 
 				for k = 1, dimensionSizeArray2[3],1 do
 
-					newTensor[newDimensionHalfSize + i][j][k] = other[i][j][k]
+					tensor[newDimensionHalfSize + i][j][k] = other[i][j][k]
 
 				end
 
@@ -986,7 +986,7 @@ function AqwamTensorLibrary3D:concatenate(other, dimension)
 
 				for k = 1, dimensionSizeArray2[3],1 do
 
-					newTensor[i][newDimensionHalfSize + j][k] = other[i][j][k]
+					tensor[i][newDimensionHalfSize + j][k] = other[i][j][k]
 
 				end
 
@@ -1004,7 +1004,7 @@ function AqwamTensorLibrary3D:concatenate(other, dimension)
 
 				for k = 1, dimensionSizeArray2[3],1 do
 
-					newTensor[i][j][newDimensionHalfSize + k] = other[i][j][k]
+					tensor[i][j][newDimensionHalfSize + k] = other[i][j][k]
 
 				end
 
@@ -1014,7 +1014,7 @@ function AqwamTensorLibrary3D:concatenate(other, dimension)
 
 	end
 
-	return self.new(newTensor)
+	return self.new(tensor)
 
 end
 
@@ -1033,7 +1033,7 @@ function AqwamTensorLibrary3D:dotProduct(other) -- Refer to this article. It was
 
 	if (dimensionSizeArray1[3] ~= dimensionSizeArray2[2]) then error("The size of the dimension 3 of the first tensor is not equal to the size of dimension 2 of the second tensor.") end
 
-	local newTensor = create3DTensor({dimensionSizeArray1[1], dimensionSizeArray1[2], dimensionSizeArray2[3]}, true)
+	local tensor = create3DTensor({dimensionSizeArray1[1], dimensionSizeArray1[2], dimensionSizeArray2[3]}, true)
 
 	for i = 1, dimensionSizeArray1[1], 1 do
 
@@ -1045,7 +1045,7 @@ function AqwamTensorLibrary3D:dotProduct(other) -- Refer to this article. It was
 
 				for l = 1, dimensionSizeArray1[3] do sum = sum + (self[i][j][l] * other[i][l][k]) end
 
-				newTensor[i][j][k] = sum
+				tensor[i][j][k] = sum
 
 			end
 
@@ -1053,7 +1053,7 @@ function AqwamTensorLibrary3D:dotProduct(other) -- Refer to this article. It was
 
 	end
 
-	return self.new(newTensor)
+	return self.new(tensor)
 
 end
 
