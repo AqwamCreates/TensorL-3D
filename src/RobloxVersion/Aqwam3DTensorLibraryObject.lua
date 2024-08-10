@@ -265,7 +265,7 @@ local function onBroadcastError(tensor1, tensor2)
 end
 
 local function checkIfCanBroadcast(tensor1, tensor2)
-	
+
 	tensor1 = AqwamTensorLibrary3D:convertValueTo3DTensor(tensor1)
 	tensor2 = AqwamTensorLibrary3D:convertValueTo3DTensor(tensor2)
 
@@ -819,7 +819,7 @@ end
 function AqwamTensorLibrary3D:__eq(other)
 
 	if not is3DTensor(other) then return false end
-	
+
 	if not isDimensionArrayEqual(self, other) then return false end
 
 	for dimension1 = 1, #self, 1 do
@@ -1226,23 +1226,23 @@ function AqwamTensorLibrary3D:__unm()
 end
 
 function AqwamTensorLibrary3D:logarithm(other)
-	
+
 	local result 
-	
+
 	if (other) then
-		
+
 		other =  self:convertValueTo3DTensor(other)
 
 		throwErrorIfOtherValueIsNot3DTensor(other)
 
 		local newSelf, newOther = AqwamTensorLibrary3D:broadcastATensorIfDifferentSize(self, other)
-		
+
 		result = applyFunctionUsingTwoTensors(math.log, newSelf, newOther)
-		
+
 	else
-		
+
 		result = applyFunctionUsingOneTensor(math.log, self)
-		
+
 	end
 
 	return self.new(result)
